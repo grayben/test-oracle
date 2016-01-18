@@ -13,7 +13,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -21,15 +20,19 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.grayben.tools</groupId>
-            <artifactId>function</artifactId>
-            <version>LATEST</version>
-        </dependency>
-        <dependency>
-            <groupId>external.atlassian.jgitflow</groupId>
-            <artifactId>jgitflow-maven-plugin</artifactId>
-            <version>1.0-m5.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.grayben.tools</groupId>-->
+            <!--<artifactId>function</artifactId>-->
+            <!--<version>0.3.2-SNAPSHOT</version>-->
+        <!--</dependency>-->
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>external.atlassian.jgitflow</groupId>
+                <artifactId>jgitflow-maven-plugin</artifactId>
+                <version>1.0-m5.1</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
