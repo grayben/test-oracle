@@ -73,10 +73,25 @@ public class ParametricTestOracleTest {
     }
 
     @Test
-    public void test_validateOutputEqualsExpected_ThrowsComparisonFailure_WhenFunctionDoesNotMapRelation
+    public void test_validateOutputEqualsExpected_ThrowsAssertionError_WhenFunctionDoesNotMapRelation
             () throws Exception {
-        thrown.expect(ComparisonFailure.class);
+        thrown.expect(AssertionError.class);
         Integer anArbitraryParameter = 56;
         oracleSut.validateOutputEqualsExpected(functionMatchingOracleTypeButNotRelation, anArbitraryParameter);
+    }
+
+    @Test
+    public void test_validateOutputNotEqualsExpected_DoesNotThrowException_WhenFunctionDoesNotMapRelation
+            () throws Exception {
+        Integer anArbitraryParameter = 56;
+        oracleSut.validateOutputNotEqualsExpected(functionMatchingOracleTypeButNotRelation, anArbitraryParameter);
+    }
+
+    @Test
+    public void test_validateOutputNotEqualsExpected_ThrowsAssertionError_WhenFunctionMapsRelation
+            () throws Exception {
+        thrown.expect(AssertionError.class);
+        Integer anArbitraryParameter = 56;
+        oracleSut.validateOutputNotEqualsExpected(functionMatchingOracleTypeAndRelation, anArbitraryParameter);
     }
 }
