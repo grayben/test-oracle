@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.grayben.tools</groupId>
             <artifactId>math</artifactId>
-            <version>0.3.2-SNAPSHOT</version>
+            <version>0.4.0</version>
         </dependency>
     </dependencies>
     <build>
