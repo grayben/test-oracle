@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>com.grayben.tools</groupId>
-            <artifactId>function</artifactId>
+            <artifactId>math</artifactId>
             <version>0.3.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
