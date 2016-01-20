@@ -17,12 +17,8 @@ public class ParametricTestOracle<P, I, O> {
         this.parametricEquation = parametricEquation;
     }
 
-    public Pair<I, O> getInputAndExpectedOutput(P parameter) {
-        return parametricEquation.apply(parameter);
-    }
-
     public void validateOutputEqualsExpected(Function<I, O> operation, P parameter){
-        Pair<I, O> oraclePair = parametricEquation.apply(parameter);
+        Pair<I, O> oraclePair = getInputAndExpectedOutput(parameter);
         I input = oraclePair.getLeft();
         O expectedOutput = oraclePair.getRight();
         O actualOut = operation.apply(input);
@@ -33,5 +29,9 @@ public class ParametricTestOracle<P, I, O> {
                 "However, the actual function output was " + actualOut.toString() + ".";
 
         assertEquals(notEqualMessage, expectedOutput, actualOut);
+    }
+
+    private Pair<I, O> getInputAndExpectedOutput(P parameter) {
+        return parametricEquation.apply(parameter);
     }
 }
