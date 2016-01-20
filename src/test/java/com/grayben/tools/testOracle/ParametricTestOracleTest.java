@@ -23,7 +23,6 @@ public class ParametricTestOracleTest {
     private Function<Integer, Integer> functionNotMatchingOracleType;
     private ParametricEquation<Integer, Integer, String> oracleSutParametricEquation;
     private ParametricTestOracle<Integer, Integer, String> oracleSut;
-    //private Function
 
     @Before
     public void setUp() throws Exception {
