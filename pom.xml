@@ -3,7 +3,7 @@
 
     <groupId>com.grayben.tools</groupId>
     <artifactId>test-oracle</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <packaging>jar</packaging>
 
     <name>test-oracle</name>
@@ -12,6 +12,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -19,7 +25,7 @@
             <version>4.12</version>
         </dependency>
         <dependency>
-            <groupId>com.grayben.tools</groupId>
+            <groupId>com.github.grayben</groupId>
             <artifactId>math</artifactId>
             <version>0.4.0</version>
         </dependency>
