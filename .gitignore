@@ -80,7 +80,6 @@ crashlytics-build.properties
 fabric.properties
 
 
-
 ### Java ###
 *.class
 
