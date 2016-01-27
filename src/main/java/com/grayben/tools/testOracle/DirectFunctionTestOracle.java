@@ -11,10 +11,10 @@ public class DirectFunctionTestOracle<I, O> implements TestOracle<I, I, O> {
 
     private final ParametricTestOracle<I, I, O> parametricTestOracle;
 
-    public DirectFunctionTestOracle(Function<I, O> directEquation) {
+    public DirectFunctionTestOracle(Function<I, O> directFunction) {
         this.parametricTestOracle = new ParametricTestOracle<>(i -> {
             Function<I, I> identity = Function.identity();
-            return new ImmutablePair<>(identity.apply(i), directEquation.apply(i));
+            return new ImmutablePair<>(identity.apply(i), directFunction.apply(i));
         });
     }
 
