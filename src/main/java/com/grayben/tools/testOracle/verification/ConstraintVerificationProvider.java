@@ -6,15 +6,13 @@ import java.util.function.Predicate;
 /**
  * Created by beng on 28/01/2016.
  */
-public abstract class ConstraintVerificationProvider<I, O> implements VerificationProvider<I, O> {
+public class ConstraintVerificationProvider<I, O> implements VerificationProvider<I, O> {
 
     private final Function<I, Predicate<O>> constraintGenerator;
 
-    public ConstraintVerificationProvider() {
-        constraintGenerator = constraintGenerator();
+    public ConstraintVerificationProvider(Function<I, Predicate<O>> constraintGenerator) {
+        this.constraintGenerator = constraintGenerator;
     }
-
-    protected abstract Function<I, Predicate<O>> constraintGenerator();
 
     @Override
     public boolean test(I input, O output) {
