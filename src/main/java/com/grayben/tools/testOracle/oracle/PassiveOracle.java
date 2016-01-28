@@ -1,5 +1,6 @@
 package com.grayben.tools.testOracle.oracle;
 
+import com.grayben.tools.testOracle.oracle.input.ParametricInputSupplier;
 import com.grayben.tools.testOracle.verification.VerificationProvider;
 
 import java.util.function.Function;
@@ -11,7 +12,7 @@ public abstract class PassiveOracle<P, I, O>{
 
     private final Function<I, O> systemUnderTest;
 
-    private final Function<P, I> inputSupplier;
+    private final ParametricInputSupplier<P, I> inputSupplier;
 
     private final VerificationProvider<I, O> verificationProvider;
 
@@ -29,7 +30,7 @@ public abstract class PassiveOracle<P, I, O>{
 
     protected abstract Function<I,O> systemUnderTest();
 
-    protected abstract Function<P, I> inputSupplier();
+    protected abstract ParametricInputSupplier<P, I> inputSupplier();
 
     protected abstract VerificationProvider<I,O> verificationProvider();
 }
