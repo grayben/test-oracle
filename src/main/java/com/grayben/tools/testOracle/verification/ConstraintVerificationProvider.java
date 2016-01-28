@@ -8,16 +8,16 @@ import java.util.function.Predicate;
  */
 public abstract class ConstraintVerificationProvider<I, O> implements VerificationProvider<I, O> {
 
-    private final Function<I, Predicate<O>> predicateGenerator;
+    private final Function<I, Predicate<O>> constraintGenerator;
 
     public ConstraintVerificationProvider() {
-        predicateGenerator = generatePredicate();
+        constraintGenerator = constraintGenerator();
     }
 
-    protected abstract Function<I, Predicate<O>> generatePredicate();
+    protected abstract Function<I, Predicate<O>> constraintGenerator();
 
     @Override
-    public boolean verify(I input, O output) {
-        return predicateGenerator.apply(input).test(output);
+    public boolean test(I input, O output) {
+        return constraintGenerator.apply(input).test(output);
     }
 }
