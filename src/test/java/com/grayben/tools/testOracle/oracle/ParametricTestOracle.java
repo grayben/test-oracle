@@ -1,6 +1,7 @@
 package com.grayben.tools.testOracle.oracle;
 
 import com.grayben.tools.math.parametricEquation.ParametricEquation;
+import com.grayben.tools.testOracle.oracle.old.ParametricOracle;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.After;
 import org.junit.Before;

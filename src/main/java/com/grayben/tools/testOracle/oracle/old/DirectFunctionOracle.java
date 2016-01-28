@@ -1,5 +1,6 @@
-package com.grayben.tools.testOracle.oracle;
+package com.grayben.tools.testOracle.oracle.old;
 
+import com.grayben.tools.testOracle.oracle.Oracle;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.util.function.Function;
