@@ -11,16 +11,16 @@ public abstract class PassiveOracle<I, O>{
 
     private final Function<I, O> systemUnderTest;
 
-    private final PassiveVerificationProvider<I, O> verificationProvider;
+    private final PassiveVerificationProvider<I, O> passiveVerificationProvider;
 
     public PassiveOracle() {
         this.systemUnderTest = effectiveSystemUnderTest();
-        this.verificationProvider = verificationProvider();
+        this.passiveVerificationProvider = verificationProvider();
     }
 
     public boolean validate(I input) {
         O actualOutput = systemUnderTest.apply(input);
-        return verificationProvider.test(input, actualOutput);
+        return passiveVerificationProvider.test(input, actualOutput);
     }
 
     protected abstract Function<I,O> effectiveSystemUnderTest();

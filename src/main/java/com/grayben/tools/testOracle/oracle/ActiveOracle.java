@@ -11,19 +11,19 @@ public abstract class ActiveOracle<I, O>{
 
     private final Function<I, O> systemUnderTest;
 
-    private final ActiveVerificationProvider<I, O> verificationProvider;
+    private final ActiveVerificationProvider<I, O> activeVerificationProvider;
 
     public ActiveOracle() {
-        this.systemUnderTest = effectiveSystemUnderTest();
-        this.verificationProvider = verificationProvider();
+        this.systemUnderTest = systemUnderTest();
+        this.activeVerificationProvider = verificationProvider();
     }
 
     public boolean validate(I input) {
         O actualOutput = systemUnderTest.apply(input);
-        return verificationProvider.apply(input).equals(actualOutput);
+        return activeVerificationProvider.apply(input).equals(actualOutput);
     }
 
-    protected abstract Function<I,O> effectiveSystemUnderTest();
+    protected abstract Function<I,O> systemUnderTest();
 
     protected abstract ActiveVerificationProvider<I, O> verificationProvider();
 }
