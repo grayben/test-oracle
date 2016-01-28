@@ -5,11 +5,11 @@ import java.util.function.Function;
 /**
  * Created by beng on 28/01/2016.
  */
-public class AlternateImplementationVerificationProvider<I, O> implements VerificationProvider<I, O> {
+public class AlternateImplementationPassiveVerificationProvider<I, O> implements PassiveVerificationProvider<I, O> {
 
     private final Function<I, O> alternateImplementation;
 
-    public AlternateImplementationVerificationProvider(Function<I, O> alternateImplementation) {
+    public AlternateImplementationPassiveVerificationProvider(Function<I, O> alternateImplementation) {
         this.alternateImplementation = alternateImplementation;
     }
 

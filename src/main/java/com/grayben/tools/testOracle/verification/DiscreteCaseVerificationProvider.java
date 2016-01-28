@@ -1,29 +1,31 @@
 package com.grayben.tools.testOracle.verification;
 
-import com.grayben.tools.testOracle.oracle.input.EnumAdapter;
+import java.util.Map;
 
 /**
  * Created by beng on 28/01/2016.
  */
-public abstract class DiscreteCaseVerificationProvider<P extends Enum<P>, I, O> implements VerificationProvider<P, O> {
+public abstract class DiscreteCaseVerificationProvider<I, O> implements PassiveVerificationProvider<I, O> {
 
-    private final EnumAdapter<P, I> enumAdapter;
-    
-    private final VerificationProvider<I, O> delegateVerificationSupplier;
-
-    protected abstract EnumAdapter<P, I> enumAdapter();
-
+    private final Map<I, O> casePairs;
 
     protected DiscreteCaseVerificationProvider() {
         super();
-        enumAdapter = enumAdapter();
-        delegateVerificationSupplier = delegateVerificationSupplier();
+        casePairs = casePairs();
     }
 
-    protected abstract VerificationProvider<I, O> delegateVerificationSupplier();
+    protected abstract Map<I,O> casePairs();
 
     @Override
-    public boolean test(P discreteCase, O output) {
-        return delegateVerificationSupplier.test(enumAdapter.apply(discreteCase), output);
+    public final boolean test(I input, O output) {
+        if (casePairs.containsKey(input) == false){
+            throw new IllegalArgumentException(
+                    "The input case given is not covered by this verification provider"
+            );
+        }
+        if (casePairs.get(input) == output)
+            return true;
+        else
+            return false;
     }
 }

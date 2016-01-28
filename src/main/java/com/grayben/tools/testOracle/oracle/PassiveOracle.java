@@ -1,6 +1,6 @@
 package com.grayben.tools.testOracle.oracle;
 
-import com.grayben.tools.testOracle.verification.VerificationProvider;
+import com.grayben.tools.testOracle.verification.PassiveVerificationProvider;
 
 import java.util.function.Function;
 
@@ -11,7 +11,7 @@ public abstract class PassiveOracle<I, O>{
 
     private final Function<I, O> systemUnderTest;
 
-    private final VerificationProvider<I, O> verificationProvider;
+    private final PassiveVerificationProvider<I, O> verificationProvider;
 
     public PassiveOracle() {
         this.systemUnderTest = systemUnderTest();
@@ -25,5 +25,5 @@ public abstract class PassiveOracle<I, O>{
 
     protected abstract Function<I,O> systemUnderTest();
 
-    protected abstract VerificationProvider<I, O> verificationProvider();
+    protected abstract PassiveVerificationProvider<I, O> verificationProvider();
 }
