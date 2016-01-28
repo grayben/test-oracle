@@ -1,4 +1,4 @@
-package com.grayben.tools.testOracle;
+package com.grayben.tools.testOracle.oracle;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 

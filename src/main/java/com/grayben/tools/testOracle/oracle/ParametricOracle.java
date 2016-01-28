@@ -1,6 +1,7 @@
-package com.grayben.tools.testOracle;
+package com.grayben.tools.testOracle.oracle;
 
 import com.grayben.tools.math.parametricEquation.ParametricEquation;
+import com.grayben.tools.testOracle.oracle.Oracle;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.function.Function;
