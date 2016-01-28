@@ -13,7 +13,7 @@ import java.util.function.Function;
  * Created by beng on 20/01/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ParametricTestOracleTest {
+public class ParametricTestOracle {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -22,7 +22,7 @@ public class ParametricTestOracleTest {
     private Function<Integer, String> functionMatchingOracleTypeButNotRelation;
     private Function<Integer, Integer> functionNotMatchingOracleType;
     private ParametricEquation<Integer, Integer, String> oracleSutParametricEquation;
-    private ParametricTestOracle<Integer, Integer, String> oracleSut;
+    private ParametricOracle<Integer, Integer, String> oracleSut;
 
     @Before
     public void setUp() throws Exception {
@@ -58,7 +58,7 @@ public class ParametricTestOracleTest {
         this.oracleSutParametricEquation = null;
     }
     private void setUpSut(){
-        this.oracleSut = new ParametricTestOracle<>(this.oracleSutParametricEquation);
+        this.oracleSut = new ParametricOracle<>(this.oracleSutParametricEquation);
     }
 
     private void tearDownSut(){

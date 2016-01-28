@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 /**
  * Created by beng on 28/01/2016.
  */
-public abstract class AbstractTestOracle<I, O>{
+public abstract class AbstractOracle<I, O>{
 
 
     private Supplier<I> inputSupplier;
@@ -19,7 +19,7 @@ public abstract class AbstractTestOracle<I, O>{
     }
 
 
-    public AbstractTestOracle(VerificationProvider<I, O> verificationProvider) {
+    public AbstractOracle(VerificationProvider<I, O> verificationProvider) {
         this.systemUnderTest = systemUnderTest();
         this.verificationProvider = verificationProvider;
     }

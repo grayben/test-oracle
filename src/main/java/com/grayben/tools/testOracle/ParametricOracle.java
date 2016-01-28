@@ -10,10 +10,10 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by beng on 20/01/2016.
  */
-public class ParametricTestOracle<P, I, O> implements TestOracle<P, I, O> {
+public class ParametricOracle<P, I, O> implements Oracle<P, I, O> {
     private final ParametricEquation<P, I, O> parametricEquation;
 
-    public ParametricTestOracle(ParametricEquation<P, I, O> parametricEquation) {
+    public ParametricOracle(ParametricEquation<P, I, O> parametricEquation) {
         this.parametricEquation = parametricEquation;
     }
 
