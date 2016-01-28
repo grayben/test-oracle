@@ -12,7 +12,7 @@ public abstract class FiniteCaseVerificationProvider<P extends Enum<P>, I, O> im
     private final EnumAdapter<P, I> enumAdapter;
 
     //TODO: rename
-    private final BiPredicate<I, O> theRealDealPredicate;
+    private final BiPredicate<I, O> delegatePredicate;
 
     protected abstract EnumAdapter<P, I> enumAdapter();
 
@@ -20,14 +20,14 @@ public abstract class FiniteCaseVerificationProvider<P extends Enum<P>, I, O> im
     protected FiniteCaseVerificationProvider() {
         super();
         enumAdapter = enumAdapter();
-        theRealDealPredicate = theRealDealPredicate();
+        delegatePredicate = delegatePredicate();
     }
 
     //TODO: rename
-    protected abstract BiPredicate<I, O> theRealDealPredicate();
+    protected abstract BiPredicate<I, O> delegatePredicate();
 
     @Override
     public boolean test(P parameter, O output) {
-        return theRealDealPredicate.test(enumAdapter.apply(parameter), output);
+        return delegatePredicate.test(enumAdapter.apply(parameter), output);
     }
 }
