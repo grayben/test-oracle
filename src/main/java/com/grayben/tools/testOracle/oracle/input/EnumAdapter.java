@@ -5,11 +5,11 @@ import java.util.EnumMap;
 /**
  * Created by beng on 28/01/2016.
  */
-public abstract class EnumInputAdapter<E extends Enum<E>, I> extends InputAdapter<E, I> {
+public abstract class EnumAdapter<E extends Enum<E>, I> extends InputAdapter<E, I> {
 
     private final EnumMap<E, I> enumMap;
 
-    public EnumInputAdapter() {
+    public EnumAdapter() {
         enumMap = enumMap();
     }
 

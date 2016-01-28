@@ -1,20 +1,33 @@
 package com.grayben.tools.testOracle.verification;
 
-import com.grayben.tools.testOracle.oracle.input.InputAdapter;
+import com.grayben.tools.testOracle.oracle.input.EnumAdapter;
 
 import java.util.function.BiPredicate;
 
 /**
  * Created by beng on 28/01/2016.
  */
-public abstract class FiniteCaseVerificationProvider<P, I, O> implements BiPredicate<P, O> {
+public abstract class FiniteCaseVerificationProvider<P extends Enum<P>, I, O> implements VerificationProvider<P, O> {
 
-    protected abstract InputAdapter<P, I> inputAdapter();
+    private final EnumAdapter<P, I> enumAdapter;
 
-    protected abstract
+    //TODO: rename
+    private final BiPredicate<I, O> theRealDealPredicate;
+
+    protected abstract EnumAdapter<P, I> enumAdapter();
+
+
+    protected FiniteCaseVerificationProvider() {
+        super();
+        enumAdapter = enumAdapter();
+        theRealDealPredicate = theRealDealPredicate();
+    }
+
+    //TODO: rename
+    protected abstract BiPredicate<I, O> theRealDealPredicate();
 
     @Override
-    public boolean test(P p, O o) {
-        return inputAdapter().andThen();
+    public boolean test(P parameter, O output) {
+        return theRealDealPredicate.test(enumAdapter.apply(parameter), output);
     }
 }
