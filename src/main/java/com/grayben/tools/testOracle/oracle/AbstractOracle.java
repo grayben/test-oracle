@@ -10,18 +10,16 @@ import java.util.function.Supplier;
  */
 public abstract class AbstractOracle<I, O>{
 
+    private final Function<I, O> systemUnderTest;
+
+    private final VerificationProvider<I, O> verificationProvider;
 
     private Supplier<I> inputSupplier;
-
 
     public AbstractOracle(VerificationProvider<I, O> verificationProvider) {
         this.systemUnderTest = systemUnderTest();
         this.verificationProvider = verificationProvider;
     }
-
-    protected abstract Function<I,O> systemUnderTest();
-
-    private final Function<I, O> systemUnderTest;
 
     public boolean validate() {
         I input = inputSupplier.get();
@@ -29,5 +27,5 @@ public abstract class AbstractOracle<I, O>{
         return verificationProvider.verify(input, actualOutput);
     }
 
-    private final VerificationProvider<I, O> verificationProvider;
+    protected abstract Function<I,O> systemUnderTest();
 }
