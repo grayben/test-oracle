@@ -1,5 +1,7 @@
 package com.grayben.tools.testOracle.oracle;
 
+import com.grayben.tools.testOracle.verification.VerificationProvider;
+
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -10,13 +12,6 @@ public abstract class AbstractOracle<I, O>{
 
 
     private Supplier<I> inputSupplier;
-
-    public abstract class VerificationProvider<I, O> {
-
-        public abstract boolean verify(I input, O output);
-
-        public abstract class AlternateImplementation<I, O> implements Function<I, O>{}
-    }
 
 
     public AbstractOracle(VerificationProvider<I, O> verificationProvider) {
