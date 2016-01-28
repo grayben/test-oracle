@@ -1,6 +1,6 @@
 package com.grayben.tools.testOracle.oracle;
 
-import com.grayben.tools.testOracle.oracle.input.ParametricInputSupplier;
+import com.grayben.tools.testOracle.oracle.input.InputAdapter;
 
 /**
  * Created by beng on 28/01/2016.
@@ -8,8 +8,8 @@ import com.grayben.tools.testOracle.oracle.input.ParametricInputSupplier;
 public abstract class DirectPassiveOracle<I, O> extends PassiveOracle<I, I, O> {
 
     @Override
-    protected final ParametricInputSupplier<I, I> inputSupplier() {
-        return new ParametricInputSupplier<I, I>() {
+    protected final InputAdapter<I, I> inputAdapter() {
+        return new InputAdapter<I, I>() {
             @Override
             public I apply(I i) {
                 return i;
