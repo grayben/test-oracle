@@ -7,7 +7,7 @@ import java.util.function.Function;
 /**
  * Created by beng on 28/01/2016.
  */
-public abstract class AbstractOracle<P, I, O>{
+public abstract class Oracle<P, I, O>{
 
     private final Function<I, O> systemUnderTest;
 
@@ -15,7 +15,7 @@ public abstract class AbstractOracle<P, I, O>{
 
     private final VerificationProvider<I, O> verificationProvider;
 
-    public AbstractOracle() {
+    public Oracle() {
         this.systemUnderTest = systemUnderTest();
         this.inputSupplier = inputSupplier();
         this.verificationProvider = verificationProvider();
