@@ -3,8 +3,8 @@ package com.grayben.tools.testOracle.configuration;
 import com.google.common.collect.ImmutableMap;
 import com.grayben.tools.testOracle.SystemUnderTest;
 import com.grayben.tools.testOracle.configuration.input.EnumAdapter;
-import com.grayben.tools.testOracle.verification.DiscreteCaseVerificationProvider;
-import com.grayben.tools.testOracle.verification.VerificationProvider;
+import com.grayben.tools.testOracle.oracle.DiscreteCasePassiveOracle;
+import com.grayben.tools.testOracle.oracle.PassiveOracle;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.EnumMap;
@@ -40,7 +40,7 @@ public class DiscreteCaseConfiguration<E extends Enum<E>, I, O>{
             I transformedInput = enumAdapter.apply(e);
             return systemUnderTest1.apply(transformedInput);
         };
-        VerificationProvider<E, O> verificationProvider = new DiscreteCaseVerificationProvider<E, O>() {
+        PassiveOracle<E, O> passiveOracle = new DiscreteCasePassiveOracle<E, O>() {
             @Override
             protected Map<E, O> casePairs() {
                 Map<E, O> map = new HashMap<>();
@@ -50,7 +50,7 @@ public class DiscreteCaseConfiguration<E extends Enum<E>, I, O>{
                 return ImmutableMap.copyOf(map);
             }
         };
-        delegateConfiguration = new Configuration<>(systemUnderTest, verificationProvider);
+        delegateConfiguration = new Configuration<>(systemUnderTest, passiveOracle);
     }
 
     private EnumAdapter<E, I> enumAdapter() {

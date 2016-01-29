@@ -1,15 +1,15 @@
-package com.grayben.tools.testOracle.verification;
+package com.grayben.tools.testOracle.oracle;
 
 import java.util.Map;
 
 /**
  * Created by beng on 28/01/2016.
  */
-public abstract class DiscreteCaseVerificationProvider<I, O> implements VerificationProvider<I, O> {
+public abstract class DiscreteCasePassiveOracle<I, O> implements PassiveOracle<I, O> {
 
     private final Map<I, O> casePairs;
 
-    protected DiscreteCaseVerificationProvider() {
+    protected DiscreteCasePassiveOracle() {
         super();
         casePairs = casePairs();
     }

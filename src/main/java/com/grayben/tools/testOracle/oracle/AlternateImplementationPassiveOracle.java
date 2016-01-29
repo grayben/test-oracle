@@ -1,15 +1,15 @@
-package com.grayben.tools.testOracle.verification;
+package com.grayben.tools.testOracle.oracle;
 
 import java.util.function.Function;
 
 /**
  * Created by beng on 28/01/2016.
  */
-public class AlternateImplementationVerificationProvider<I, O> implements VerificationProvider<I, O> {
+public class AlternateImplementationPassiveOracle<I, O> implements PassiveOracle<I, O> {
 
     private final Function<I, O> alternateImplementation;
 
-    public AlternateImplementationVerificationProvider(Function<I, O> alternateImplementation) {
+    public AlternateImplementationPassiveOracle(Function<I, O> alternateImplementation) {
         this.alternateImplementation = alternateImplementation;
     }
 

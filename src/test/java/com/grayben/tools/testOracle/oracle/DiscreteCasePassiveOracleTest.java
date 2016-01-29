@@ -1,4 +1,4 @@
-package com.grayben.tools.testOracle.verification;
+package com.grayben.tools.testOracle.oracle;
 
 import org.junit.After;
 import org.junit.Rule;
@@ -17,12 +17,12 @@ import static org.junit.Assert.*;
  * Created by beng on 29/01/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DiscreteCaseVerificationProviderTest {
+public class DiscreteCasePassiveOracleTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    DiscreteCaseVerificationProvider<Integer, String> discreteCaseVerificationProvider;
+    DiscreteCasePassiveOracle<Integer, String> discreteCaseVerificationProvider;
 
     @After
     public void tearDown() throws Exception {
@@ -31,7 +31,7 @@ public class DiscreteCaseVerificationProviderTest {
 
     @Test
     public void test_TestThrowsIllegalArgumentException_WhenCasePairsReturnsEmptyMap() throws Exception {
-        discreteCaseVerificationProvider = new DiscreteCaseVerificationProvider<Integer, String>() {
+        discreteCaseVerificationProvider = new DiscreteCasePassiveOracle<Integer, String>() {
             @Override
             protected Map<Integer, String> casePairs() {
                 return new HashMap<>();
@@ -46,7 +46,7 @@ public class DiscreteCaseVerificationProviderTest {
         Map<Integer, String> map = new HashMap<>();
         map.put(1, "One");
         map.put(2, "Two");
-        discreteCaseVerificationProvider = new DiscreteCaseVerificationProvider<Integer, String>() {
+        discreteCaseVerificationProvider = new DiscreteCasePassiveOracle<Integer, String>() {
             @Override
             protected Map<Integer, String> casePairs() {
                 return map;
@@ -62,7 +62,7 @@ public class DiscreteCaseVerificationProviderTest {
         Map<Integer, String> map = new HashMap<>();
         map.put(1, "One");
         map.put(2, "Two");
-        discreteCaseVerificationProvider = new DiscreteCaseVerificationProvider<Integer, String>() {
+        discreteCaseVerificationProvider = new DiscreteCasePassiveOracle<Integer, String>() {
             @Override
             protected Map<Integer, String> casePairs() {
                 return map;

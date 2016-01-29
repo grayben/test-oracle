@@ -1,4 +1,4 @@
-package com.grayben.tools.testOracle.verification;
+package com.grayben.tools.testOracle.oracle;
 
 import org.junit.After;
 import org.junit.Test;
@@ -14,11 +14,11 @@ import static org.junit.Assert.assertTrue;
  * Created by beng on 29/01/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class AlternateImplementationVerificationProviderTest {
+public class AlternateImplementationPassiveOracleTest {
 
     private Function<Integer, String> thePrimaryImplementation;
     private Function<Integer, String> theAlternateImplementation;
-    private AlternateImplementationVerificationProvider<Integer, String> alternateImplementationVerificationProvider;
+    private AlternateImplementationPassiveOracle<Integer, String> alternateImplementationVerificationProvider;
 
     @After
     public void tearDown() throws Exception {
@@ -31,7 +31,7 @@ public class AlternateImplementationVerificationProviderTest {
     public void test_TestReturnsTrue_WhenFunctionUnderTestAndAlternateImplementationAreTheSame() throws Exception {
         thePrimaryImplementation = integer -> String.valueOf(2 * integer);
         theAlternateImplementation = thePrimaryImplementation;
-        alternateImplementationVerificationProvider = new AlternateImplementationVerificationProvider<>(theAlternateImplementation);
+        alternateImplementationVerificationProvider = new AlternateImplementationPassiveOracle<>(theAlternateImplementation);
         Integer input = 4456;
         String actualOutput = thePrimaryImplementation.apply(input);
         assertTrue(alternateImplementationVerificationProvider.test(input, actualOutput));
@@ -41,7 +41,7 @@ public class AlternateImplementationVerificationProviderTest {
     public void test_TestReturnsFalse_WhenFunctionUnderTestAndAlternateImplementationAreNotTheSame() throws Exception {
         theAlternateImplementation = integer -> String.valueOf(2 * integer);
         thePrimaryImplementation = integer -> theAlternateImplementation.apply(integer).concat(" and then some more");
-        alternateImplementationVerificationProvider = new AlternateImplementationVerificationProvider<>(theAlternateImplementation);
+        alternateImplementationVerificationProvider = new AlternateImplementationPassiveOracle<>(theAlternateImplementation);
         Integer input = 4456;
         String actualOutput = thePrimaryImplementation.apply(input);
         assertFalse(alternateImplementationVerificationProvider.test(input, actualOutput));
