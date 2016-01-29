@@ -18,7 +18,7 @@ public abstract class Oracle<I, O>{
         this.verificationProvider = verificationProvider();
     }
 
-    public boolean validate(I input) {
+    final public boolean validate(I input) {
         O actualOutput = systemUnderTest.apply(input);
         return verificationProvider.test(input, actualOutput);
     }
