@@ -1,4 +1,4 @@
-package com.grayben.tools.testOracle.configuration;
+package com.grayben.tools.testOracle.testContainer;
 
 import com.grayben.tools.testOracle.SystemUnderTest;
 import junit.framework.TestCase;
@@ -14,7 +14,7 @@ import java.util.function.Function;
  * Created by beng on 29/01/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DiscreteCaseConfigurationTest {
+public class DiscreteCaseTestContainerTest {
 
     public enum SystemUnderTestOption {
         SIMPLE(String::valueOf),
@@ -45,7 +45,7 @@ public class DiscreteCaseConfigurationTest {
                     throw new IllegalArgumentException("The option was not recognised");
                 };
 
-        DiscreteCaseConfiguration<SystemUnderTestOption, Integer, String> oracle = new DiscreteCaseConfiguration<>(
+        DiscreteCaseTestContainer<SystemUnderTestOption, Integer, String> oracle = new DiscreteCaseTestContainer<>(
                 SystemUnderTestOption.class,
                 SystemUnderTestOption::getSystemUnderTest,
                 pairGenerator
@@ -73,7 +73,7 @@ public class DiscreteCaseConfigurationTest {
             throw new IllegalArgumentException("The option was not recognised");
         };
 
-        DiscreteCaseConfiguration<SystemUnderTestOption, Integer, String> oracle = new DiscreteCaseConfiguration<>(
+        DiscreteCaseTestContainer<SystemUnderTestOption, Integer, String> oracle = new DiscreteCaseTestContainer<>(
                 SystemUnderTestOption.class,
                 SystemUnderTestOption::getSystemUnderTest,
                 pairGenerator

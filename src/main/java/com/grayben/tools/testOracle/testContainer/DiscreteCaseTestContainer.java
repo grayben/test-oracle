@@ -1,7 +1,7 @@
-package com.grayben.tools.testOracle.configuration;
+package com.grayben.tools.testOracle.testContainer;
 
 import com.grayben.tools.testOracle.SystemUnderTest;
-import com.grayben.tools.testOracle.configuration.input.EnumAdapter;
+import com.grayben.tools.testOracle.testContainer.input.EnumAdapter;
 import com.grayben.tools.testOracle.oracle.ActiveToPassiveOracleAdapter;
 import com.grayben.tools.testOracle.oracle.active.DiscreteCaseActiveOracle;
 import com.grayben.tools.testOracle.oracle.passive.PassiveOracle;
@@ -16,17 +16,17 @@ import java.util.function.Function;
 /**
  * Created by beng on 28/01/2016.
  */
-public class DiscreteCaseConfiguration<E extends Enum<E>, I, O>{
+public class DiscreteCaseTestContainer<E extends Enum<E>, I, O>{
 
-    private final Configuration<E, O> delegateConfiguration;
+    private final TestContainer<E, O> delegateTestContainer;
 
-    public DiscreteCaseConfiguration(Class<E> enumClass,
-                                        Function<E, SystemUnderTest<I, O>> systemUnderTestGenerator,
-                                        Function<E, Pair<I, O>> pairGenerator) {
+    public DiscreteCaseTestContainer(Class<E> enumClass,
+                                     Function<E, SystemUnderTest<I, O>> systemUnderTestGenerator,
+                                     Function<E, Pair<I, O>> pairGenerator) {
         EnumAdapter<E, I> enumAdapter = enumAdapter(enumClass, pairGenerator);
         PassiveOracle<E, O> passiveOracle = passiveOracle(enumClass, pairGenerator);
         SystemUnderTest<E, O> systemUnderTest = systemUnderTest(enumAdapter, systemUnderTestGenerator);
-        delegateConfiguration = new Configuration<>(systemUnderTest, passiveOracle);
+        delegateTestContainer = new TestContainer<>(systemUnderTest, passiveOracle);
     }
 
     private EnumAdapter<E, I> enumAdapter(Class<E> enumClass, Function<E, Pair<I, O>> pairGenerator) {
@@ -55,6 +55,6 @@ public class DiscreteCaseConfiguration<E extends Enum<E>, I, O>{
     }
 
     final public boolean validate(E discreteCase){
-        return delegateConfiguration.validate(discreteCase);
+        return delegateTestContainer.validate(discreteCase);
     }
 }

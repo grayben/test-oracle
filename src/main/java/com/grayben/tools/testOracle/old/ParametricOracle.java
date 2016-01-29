@@ -1,4 +1,4 @@
-package com.grayben.tools.testOracle.configuration.old;
+package com.grayben.tools.testOracle.old;
 
 /**
  * Created by beng on 20/01/2016.
@@ -6,7 +6,7 @@ package com.grayben.tools.testOracle.configuration.old;
 public abstract class ParametricOracle<P, I, O> {}
         /*
 
-        extends Configuration<P, O> {
+        extends TestContainer<P, O> {
     private final ParametricEquation<P, I, O> parametricEquation;
 
     public ParametricOracle(ParametricEquation<P, I, O> parametricEquation) {

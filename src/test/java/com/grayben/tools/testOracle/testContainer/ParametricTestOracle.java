@@ -1,4 +1,4 @@
-package com.grayben.tools.testOracle.configuration;
+package com.grayben.tools.testOracle.testContainer;
 
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;

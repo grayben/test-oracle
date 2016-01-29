@@ -1,4 +1,4 @@
-package com.grayben.tools.testOracle.configuration.input;
+package com.grayben.tools.testOracle.testContainer.input;
 
 import java.util.EnumMap;
 
