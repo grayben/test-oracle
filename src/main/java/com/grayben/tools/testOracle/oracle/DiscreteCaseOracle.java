@@ -2,6 +2,7 @@ package com.grayben.tools.testOracle.oracle;
 
 import com.grayben.tools.testOracle.oracle.input.EnumAdapter;
 import com.grayben.tools.testOracle.verification.VerificationProvider;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.function.Function;
@@ -11,10 +12,10 @@ import java.util.function.Function;
  */
 public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle<E, O> {
 
-    private final EnumAdapter<E, Pair<I, O>> enumAdapter;
+    private final EnumAdapter<E, ImmutablePair<I, O>> enumAdapter;
     private final Function<E, Function<I, O>> underlyingSystemUnderTestFunction;
 
-    protected abstract EnumAdapter<E,Pair<I, O>> enumAdapter();
+    protected abstract EnumAdapter<E, ImmutablePair<I, O>> enumAdapter();
     protected abstract Function<E, Function<I,O>> underlyingSystemUnderTestFunction();
 
     protected DiscreteCaseOracle() {
@@ -29,6 +30,10 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle
 
     @Override
     final protected VerificationProvider<E, O> verificationProvider() {
-        return (e, o) -> enumAdapter.apply(e).getRight().equals(o);
+        return (discreteCase, actualOutput) -> {
+            Pair<I, O> inputOutputPair = enumAdapter.apply(discreteCase);
+            O expectedOutput = inputOutputPair.getRight();
+            return expectedOutput.equals(actualOutput);
+        };
     }
 }
