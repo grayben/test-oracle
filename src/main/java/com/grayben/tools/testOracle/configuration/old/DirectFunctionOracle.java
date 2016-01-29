@@ -1,11 +1,11 @@
-package com.grayben.tools.testOracle.oracle.old;
+package com.grayben.tools.testOracle.configuration.old;
 
 /**
  * Created by beng on 24/01/2016.
  */
 public abstract class DirectFunctionOracle<I, O> {}
 /*
-extends Oracle<I, O> {
+extends Configuration<I, O> {
 
     private final ParametricOracle<I, I, O> parametricOracle;
 

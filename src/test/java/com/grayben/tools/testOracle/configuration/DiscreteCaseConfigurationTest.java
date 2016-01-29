@@ -1,6 +1,7 @@
-package com.grayben.tools.testOracle.oracle;
+package com.grayben.tools.testOracle.configuration;
 
 import com.grayben.tools.testOracle.SystemUnderTest;
+import junit.framework.TestCase;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
@@ -9,14 +10,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.function.Function;
 
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
-
 /**
  * Created by beng on 29/01/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DiscreteCaseOracleTest {
+public class DiscreteCaseConfigurationTest {
 
     public enum SystemUnderTestOption {
         SIMPLE(String::valueOf),
@@ -47,14 +45,14 @@ public class DiscreteCaseOracleTest {
                     throw new IllegalArgumentException("The option was not recognised");
                 };
 
-        DiscreteCaseOracle<SystemUnderTestOption, Integer, String> oracle = new DiscreteCaseOracle<>(
+        DiscreteCaseConfiguration<SystemUnderTestOption, Integer, String> oracle = new DiscreteCaseConfiguration<>(
                 SystemUnderTestOption.class,
                 SystemUnderTestOption::getSystemUnderTest,
                 pairGenerator
         );
 
-        assertFalse(oracle.validate(SystemUnderTestOption.SIMPLE));
-        assertFalse(oracle.validate(SystemUnderTestOption.COMPLICATED));
+        TestCase.assertFalse(oracle.validate(SystemUnderTestOption.SIMPLE));
+        TestCase.assertFalse(oracle.validate(SystemUnderTestOption.COMPLICATED));
 
     }
 
@@ -75,14 +73,14 @@ public class DiscreteCaseOracleTest {
             throw new IllegalArgumentException("The option was not recognised");
         };
 
-        DiscreteCaseOracle<SystemUnderTestOption, Integer, String> oracle = new DiscreteCaseOracle<>(
+        DiscreteCaseConfiguration<SystemUnderTestOption, Integer, String> oracle = new DiscreteCaseConfiguration<>(
                 SystemUnderTestOption.class,
                 SystemUnderTestOption::getSystemUnderTest,
                 pairGenerator
         );
 
-        assertTrue(oracle.validate(SystemUnderTestOption.SIMPLE));
-        assertTrue(oracle.validate(SystemUnderTestOption.COMPLICATED));
+        TestCase.assertTrue(oracle.validate(SystemUnderTestOption.SIMPLE));
+        TestCase.assertTrue(oracle.validate(SystemUnderTestOption.COMPLICATED));
 
     }
 }

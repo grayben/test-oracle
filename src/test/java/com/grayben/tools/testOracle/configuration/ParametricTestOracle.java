@@ -1,17 +1,7 @@
-package com.grayben.tools.testOracle.oracle;
+package com.grayben.tools.testOracle.configuration;
 
-import com.grayben.tools.math.parametricEquation.ParametricEquation;
-import com.grayben.tools.testOracle.oracle.old.ParametricOracle;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.function.Function;
 
 /**
  * Created by beng on 20/01/2016.

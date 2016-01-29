@@ -1,11 +1,11 @@
-package com.grayben.tools.testOracle.oracle.old;
+package com.grayben.tools.testOracle.configuration.old;
 
 /**
  * Created by beng on 27/01/2016.
  */
 public abstract class ParametricSutConfiguringOracle<P, SUT, I, O> {}
 /*
-extends Oracle<P, Pair<SUT, I>, O> {
+extends Configuration<P, Pair<SUT, I>, O> {
 
 
     private final ParametricOracle<P, Pair<SUT, I>, O> parametricOracle;

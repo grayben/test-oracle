@@ -1,8 +1,8 @@
-package com.grayben.tools.testOracle.oracle;
+package com.grayben.tools.testOracle.configuration;
 
 import com.google.common.collect.ImmutableMap;
 import com.grayben.tools.testOracle.SystemUnderTest;
-import com.grayben.tools.testOracle.oracle.input.EnumAdapter;
+import com.grayben.tools.testOracle.configuration.input.EnumAdapter;
 import com.grayben.tools.testOracle.verification.DiscreteCaseVerificationProvider;
 import com.grayben.tools.testOracle.verification.VerificationProvider;
 import org.apache.commons.lang3.tuple.Pair;
@@ -16,9 +16,9 @@ import java.util.function.Function;
 /**
  * Created by beng on 28/01/2016.
  */
-public class DiscreteCaseOracle<E extends Enum<E>, I, O>{
+public class DiscreteCaseConfiguration<E extends Enum<E>, I, O>{
 
-    private final Oracle<E, O> delegateOracle;
+    private final Configuration<E, O> delegateConfiguration;
 
     private final Class<E> enumClass;
 
@@ -28,15 +28,15 @@ public class DiscreteCaseOracle<E extends Enum<E>, I, O>{
 
     private final Function<E, Pair<I, O>> pairGenerator;
 
-    protected DiscreteCaseOracle(Class<E> enumClass,
-                                 Function<E, SystemUnderTest<I, O>> systemUnderTestGenerator,
-                                 Function<E, Pair<I, O>> pairGenerator) {
+    protected DiscreteCaseConfiguration(Class<E> enumClass,
+                                        Function<E, SystemUnderTest<I, O>> systemUnderTestGenerator,
+                                        Function<E, Pair<I, O>> pairGenerator) {
         this.enumClass = enumClass;
         this.systemUnderTestGenerator = systemUnderTestGenerator;
         this.pairGenerator = pairGenerator;
         enumAdapter = enumAdapter();
         SystemUnderTest<E, O> systemUnderTest = e -> {
-            SystemUnderTest<I, O> systemUnderTest1 = DiscreteCaseOracle.this.systemUnderTestGenerator.apply(e);
+            SystemUnderTest<I, O> systemUnderTest1 = DiscreteCaseConfiguration.this.systemUnderTestGenerator.apply(e);
             I transformedInput = enumAdapter.apply(e);
             return systemUnderTest1.apply(transformedInput);
         };
@@ -45,12 +45,12 @@ public class DiscreteCaseOracle<E extends Enum<E>, I, O>{
             protected Map<E, O> casePairs() {
                 Map<E, O> map = new HashMap<>();
                 for (E option : EnumSet.allOf(enumClass)) {
-                    map.put(option, DiscreteCaseOracle.this.pairGenerator.apply(option).getValue());
+                    map.put(option, DiscreteCaseConfiguration.this.pairGenerator.apply(option).getValue());
                 }
                 return ImmutableMap.copyOf(map);
             }
         };
-        delegateOracle = new Oracle<>(systemUnderTest, verificationProvider);
+        delegateConfiguration = new Configuration<>(systemUnderTest, verificationProvider);
     }
 
     private EnumAdapter<E, I> enumAdapter() {
@@ -67,6 +67,6 @@ public class DiscreteCaseOracle<E extends Enum<E>, I, O>{
     }
 
     final public boolean validate(E discreteCase){
-        return delegateOracle.validate(discreteCase);
+        return delegateConfiguration.validate(discreteCase);
     }
 }
