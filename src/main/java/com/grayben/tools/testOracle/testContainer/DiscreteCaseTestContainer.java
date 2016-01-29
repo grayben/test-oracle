@@ -1,7 +1,7 @@
 package com.grayben.tools.testOracle.testContainer;
 
 import com.grayben.tools.testOracle.SystemUnderTest;
-import com.grayben.tools.testOracle.testContainer.input.EnumAdapter;
+import com.grayben.tools.testOracle.testContainer.adapter.EnumAdapter;
 import com.grayben.tools.testOracle.oracle.ActiveToPassiveOracleAdapter;
 import com.grayben.tools.testOracle.oracle.active.DiscreteCaseActiveOracle;
 import com.grayben.tools.testOracle.oracle.passive.PassiveOracle;

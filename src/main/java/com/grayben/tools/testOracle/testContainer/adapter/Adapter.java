@@ -1,4 +1,4 @@
-package com.grayben.tools.testOracle.testContainer.input;
+package com.grayben.tools.testOracle.testContainer.adapter;
 
 import java.util.function.Function;
 
