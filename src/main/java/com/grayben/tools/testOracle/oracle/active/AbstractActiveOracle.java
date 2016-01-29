@@ -8,7 +8,7 @@ import com.grayben.tools.testOracle.oracle.passive.PassiveOracle;
 public abstract class AbstractActiveOracle<I, O> implements ActiveOracle<I, O> {
 
     @Override
-    public PassiveOracle<I, O> adaptToPassiveOracle() {
+    final public PassiveOracle<I, O> adaptToPassiveOracle() {
         return (input, actualOutput) -> actualOutput.equals(apply(input));
     }
 }
