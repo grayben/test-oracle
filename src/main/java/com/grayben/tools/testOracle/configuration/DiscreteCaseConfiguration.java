@@ -1,6 +1,5 @@
 package com.grayben.tools.testOracle.configuration;
 
-import com.google.common.collect.ImmutableMap;
 import com.grayben.tools.testOracle.SystemUnderTest;
 import com.grayben.tools.testOracle.configuration.input.EnumAdapter;
 import com.grayben.tools.testOracle.oracle.passive.DiscreteCasePassiveOracle;
@@ -20,50 +19,38 @@ public class DiscreteCaseConfiguration<E extends Enum<E>, I, O>{
 
     private final Configuration<E, O> delegateConfiguration;
 
-    private final Class<E> enumClass;
-
-    private final EnumAdapter<E, I> enumAdapter;
-
-    private final Function<E, SystemUnderTest<I, O>> systemUnderTestGenerator;
-
-    private final Function<E, Pair<I, O>> pairGenerator;
-
-    protected DiscreteCaseConfiguration(Class<E> enumClass,
+    public DiscreteCaseConfiguration(Class<E> enumClass,
                                         Function<E, SystemUnderTest<I, O>> systemUnderTestGenerator,
                                         Function<E, Pair<I, O>> pairGenerator) {
-        this.enumClass = enumClass;
-        this.systemUnderTestGenerator = systemUnderTestGenerator;
-        this.pairGenerator = pairGenerator;
-        enumAdapter = enumAdapter();
-        SystemUnderTest<E, O> systemUnderTest = e -> {
-            SystemUnderTest<I, O> systemUnderTest1 = DiscreteCaseConfiguration.this.systemUnderTestGenerator.apply(e);
-            I transformedInput = enumAdapter.apply(e);
-            return systemUnderTest1.apply(transformedInput);
-        };
-        PassiveOracle<E, O> passiveOracle = new DiscreteCasePassiveOracle<E, O>() {
-            @Override
-            protected Map<E, O> casePairs() {
-                Map<E, O> map = new HashMap<>();
-                for (E option : EnumSet.allOf(enumClass)) {
-                    map.put(option, DiscreteCaseConfiguration.this.pairGenerator.apply(option).getValue());
-                }
-                return ImmutableMap.copyOf(map);
-            }
-        };
+        EnumAdapter<E, I> enumAdapter = enumAdapter(enumClass, pairGenerator);
+        PassiveOracle<E, O> passiveOracle = passiveOracle(enumClass, pairGenerator);
+        SystemUnderTest<E, O> systemUnderTest = systemUnderTest(enumAdapter, systemUnderTestGenerator);
         delegateConfiguration = new Configuration<>(systemUnderTest, passiveOracle);
     }
 
-    private EnumAdapter<E, I> enumAdapter() {
-        return new EnumAdapter<E, I>() {
-            @Override
-            protected EnumMap<E, I> enumMap() {
-                Map<E, I> map = new HashMap<>();
-                for (E option : EnumSet.allOf(enumClass)) {
-                    map.put(option, pairGenerator.apply(option).getKey());
-                }
-                return new EnumMap<>(map);
-            }
+    private EnumAdapter<E, I> enumAdapter(Class<E> enumClass, Function<E, Pair<I, O>> pairGenerator) {
+        Map<E, I> map = new HashMap<>();
+        for (E option : EnumSet.allOf(enumClass)) {
+            map.put(option, pairGenerator.apply(option).getKey());
+        }
+        EnumMap<E, I> enumMap = new EnumMap<>(map);
+        return new EnumAdapter<>(enumMap);
+    }
+
+    private SystemUnderTest<E, O> systemUnderTest(EnumAdapter<E, I> enumAdapter, Function<E, SystemUnderTest<I, O>> systemUnderTestGenerator) {
+        return enumInput -> {
+            SystemUnderTest<I, O> systemUnderTest = systemUnderTestGenerator.apply(enumInput);
+            I transformedInput = enumAdapter.apply(enumInput);
+            return systemUnderTest.apply(transformedInput);
         };
+    }
+
+    private PassiveOracle<E, O> passiveOracle(Class<E> enumClass, Function<E, Pair<I, O>> pairGenerator) {
+        Map<E, O> casePairs = new HashMap<>();
+        for (E option : EnumSet.allOf(enumClass)) {
+            casePairs.put(option, pairGenerator.apply(option).getValue());
+        }
+        return new DiscreteCasePassiveOracle<>(casePairs);
     }
 
     final public boolean validate(E discreteCase){
