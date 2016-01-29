@@ -38,7 +38,7 @@ public class DiscreteCaseOracleTest {
         DiscreteCaseOracle<FunctionOption, Integer, String> oracle = new DiscreteCaseOracle<FunctionOption, Integer, String>(FunctionOption.class){
 
             @Override
-            protected Function<FunctionOption, Function<Integer, String>> underlyingSystemUnderTestFunction() {
+            protected Function<FunctionOption, Function<Integer, String>> systemUnderTestGenerator() {
                 return FunctionOption::getFunction;
             }
 
@@ -67,7 +67,7 @@ public class DiscreteCaseOracleTest {
         DiscreteCaseOracle<FunctionOption, Integer, String> oracle = new DiscreteCaseOracle<FunctionOption, Integer, String>(FunctionOption.class){
 
             @Override
-            protected Function<FunctionOption, Function<Integer, String>> underlyingSystemUnderTestFunction() {
+            protected Function<FunctionOption, Function<Integer, String>> systemUnderTestGenerator() {
                 return FunctionOption::getFunction;
             }
 

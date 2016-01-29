@@ -1,6 +1,7 @@
 package com.grayben.tools.testOracle.oracle;
 
 import com.google.common.collect.ImmutableMap;
+import com.grayben.tools.testOracle.SystemUnderTest;
 import com.grayben.tools.testOracle.oracle.input.EnumAdapter;
 import com.grayben.tools.testOracle.verification.DiscreteCaseVerificationProvider;
 import com.grayben.tools.testOracle.verification.VerificationProvider;
@@ -37,7 +38,7 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O>{
         };
     }
 
-    private final Function<E, Function<I, O>> underlyingSystemUnderTestFunction = underlyingSystemUnderTestFunction();
+    private final Function<E, SystemUnderTest<I, O>> systemUnderTestGenerator = systemUnderTestGenerator();
 
     private final Function<E, Pair<I, O>> pairGenerator = pairGenerator();
 
@@ -46,11 +47,11 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O>{
         enumAdapter = enumAdapter();
         delegateOracle = new Oracle<E, O>() {
             @Override
-            protected Function<E, O> systemUnderTest() {
+            protected SystemUnderTest<E, O> systemUnderTest() {
                 return e -> {
-                    Function<I, O> underlyingSystemUnderTest = underlyingSystemUnderTestFunction.apply(e);
+                    SystemUnderTest<I, O> systemUnderTest = systemUnderTestGenerator.apply(e);
                     I transformedInput = enumAdapter.apply(e);
-                    return underlyingSystemUnderTest.apply(transformedInput);
+                    return systemUnderTest.apply(transformedInput);
                 };
             }
 
@@ -74,7 +75,7 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O>{
         return delegateOracle.validate(discreteCase);
     }
 
-    protected abstract Function<E, Function<I,O>> underlyingSystemUnderTestFunction();
+    protected abstract Function<E, SystemUnderTest<I,O>> systemUnderTestGenerator();
 
     protected abstract Function<E, Pair<I, O>> pairGenerator();
 
@@ -99,7 +100,7 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O>{
         }
 
         @Override
-        protected Function<Option, Function<Integer, String>> underlyingSystemUnderTestFunction() {
+        protected Function<Option, Function<Integer, String>> systemUnderTestGenerator() {
             return options -> {
                 switch (options){
                     case SIMPLE:
