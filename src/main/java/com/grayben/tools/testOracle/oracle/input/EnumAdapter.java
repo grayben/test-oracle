@@ -8,15 +8,14 @@ import java.util.EnumMap;
 public abstract class EnumAdapter<E extends Enum<E>, I> extends InputAdapter<E, I> {
 
     private final EnumMap<E, I> enumMap;
+    protected abstract EnumMap<E, I> enumMap();
 
     public EnumAdapter() {
         enumMap = enumMap();
     }
 
-    protected abstract EnumMap<E, I> enumMap();
-
     @Override
-    public I apply(E e) {
+    final public I apply(E e) {
         return enumMap.get(e);
     }
 }

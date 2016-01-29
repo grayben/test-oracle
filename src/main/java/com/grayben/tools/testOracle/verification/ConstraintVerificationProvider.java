@@ -15,7 +15,7 @@ public class ConstraintVerificationProvider<I, O> implements VerificationProvide
     }
 
     @Override
-    public boolean test(I input, O output) {
+    final public boolean test(I input, O output) {
         return constraintGenerator.apply(input).test(output);
     }
 }

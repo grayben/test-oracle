@@ -17,7 +17,7 @@ public abstract class DiscreteCaseVerificationProvider<I, O> implements Verifica
     protected abstract Map<I,O> casePairs();
 
     @Override
-    public final boolean test(I input, O output) {
+    final public boolean test(I input, O output) {
         if (casePairs.containsKey(input) == false){
             throw new IllegalArgumentException(
                     "The input case given is not covered by this verification provider"

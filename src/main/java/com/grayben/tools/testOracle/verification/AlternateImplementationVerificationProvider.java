@@ -14,7 +14,7 @@ public class AlternateImplementationVerificationProvider<I, O> implements Verifi
     }
 
     @Override
-    public boolean test(I input, O output) {
+    final public boolean test(I input, O output) {
         return output == alternateImplementation.apply(input);
     }
 }
