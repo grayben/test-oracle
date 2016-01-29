@@ -1,14 +1,14 @@
 package com.grayben.tools.testOracle.oracle;
 
 import com.grayben.tools.testOracle.oracle.input.EnumAdapter;
-import com.grayben.tools.testOracle.verification.ActiveVerificationProvider;
+import com.grayben.tools.testOracle.verification.VerificationProvider;
 
 import java.util.function.Function;
 
 /**
  * Created by beng on 28/01/2016.
  */
-public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends ActiveOracle<E, O> {
+public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle<E, O> {
 
     private final Function<I, O> underlyingSystemUnderTest;
 
@@ -29,9 +29,9 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Active
     }
 
     @Override
-    final protected ActiveVerificationProvider<E, O> verificationProvider() {
+    final protected VerificationProvider<E, O> verificationProvider() {
         return discreteCaseVerificationProvider();
     }
 
-    protected abstract ActiveVerificationProvider<E, O> discreteCaseVerificationProvider();
+    protected abstract VerificationProvider<E, O> discreteCaseVerificationProvider();
 }

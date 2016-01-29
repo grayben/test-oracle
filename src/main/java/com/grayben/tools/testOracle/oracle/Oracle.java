@@ -7,14 +7,14 @@ import java.util.function.Function;
 /**
  * Created by beng on 28/01/2016.
  */
-public abstract class PassiveOracle<I, O>{
+public abstract class Oracle<I, O>{
 
     private final Function<I, O> systemUnderTest;
 
     private final VerificationProvider<I, O> verificationProvider;
 
-    public PassiveOracle() {
-        this.systemUnderTest = effectiveSystemUnderTest();
+    public Oracle() {
+        this.systemUnderTest = systemUnderTest();
         this.verificationProvider = verificationProvider();
     }
 
@@ -23,7 +23,7 @@ public abstract class PassiveOracle<I, O>{
         return verificationProvider.test(input, actualOutput);
     }
 
-    protected abstract Function<I,O> effectiveSystemUnderTest();
+    protected abstract Function<I,O> systemUnderTest();
 
     protected abstract VerificationProvider<I, O> verificationProvider();
 }
