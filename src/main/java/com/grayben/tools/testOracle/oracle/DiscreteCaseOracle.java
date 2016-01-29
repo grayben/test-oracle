@@ -1,6 +1,7 @@
 package com.grayben.tools.testOracle.oracle;
 
 import com.grayben.tools.testOracle.oracle.input.EnumAdapter;
+import com.grayben.tools.testOracle.verification.DiscreteCaseVerificationProvider;
 import com.grayben.tools.testOracle.verification.VerificationProvider;
 
 import java.util.function.Function;
@@ -33,5 +34,5 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle
         return discreteCaseVerificationProvider();
     }
 
-    protected abstract VerificationProvider<E, O> discreteCaseVerificationProvider();
+    protected abstract DiscreteCaseVerificationProvider<E, O> discreteCaseVerificationProvider();
 }
