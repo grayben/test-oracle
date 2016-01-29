@@ -8,6 +8,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -17,15 +18,25 @@ import java.util.function.Function;
  */
 public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle<E, O> {
 
-    private final EnumAdapter<E, I> enumAdapter;
-    private final Function<E, Function<I, O>> underlyingSystemUnderTestFunction;
+    private final Class<E> enumClass;
 
-    protected abstract EnumAdapter<E, I> enumAdapter();
-    protected abstract Function<E, Function<I,O>> underlyingSystemUnderTestFunction();
+    private final EnumAdapter<E, I> enumAdapter = new EnumAdapter<E, I>() {
+        @Override
+        protected EnumMap<E, I> enumMap() {
+            Map<E, I> map = new HashMap<>();
+            for (E option : EnumSet.allOf(enumClass)) {
+                map.put(option, pairGenerator.apply(option).getKey());
+            }
+            return new EnumMap<>(map);
+        }
+    };
 
-    protected DiscreteCaseOracle() {
-        underlyingSystemUnderTestFunction = underlyingSystemUnderTestFunction();
-        enumAdapter = enumAdapter();
+    private final Function<E, Function<I, O>> underlyingSystemUnderTestFunction = underlyingSystemUnderTestFunction();
+
+    private final Function<E, Pair<I, O>> pairGenerator = pairGenerator();
+
+    protected DiscreteCaseOracle(Class<E> enumClass) {
+        this.enumClass = enumClass;
     }
 
     @Override
@@ -43,13 +54,42 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle
 
     @Override
     final protected VerificationProvider<E, O> verificationProvider() {
-        return discreteCaseVerificationProvider();
+        return new DiscreteCaseVerificationProvider<E, O>() {
+            @Override
+            protected Map<E, O> casePairs() {
+                Map<E, O> map = new HashMap<>();
+                for (E option : EnumSet.allOf(enumClass)){
+                    map.put(option, pairGenerator.apply(option).getValue());
+                }
+                return ImmutableMap.copyOf(map);
+            }
+        };
     }
 
-    protected abstract DiscreteCaseVerificationProvider<E, O> discreteCaseVerificationProvider();
+    protected abstract Function<E, Function<I,O>> underlyingSystemUnderTestFunction();
+
+    protected abstract Function<E, Pair<I, O>> pairGenerator();
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static class ConcreteDiscreteCaseOracle
             extends DiscreteCaseOracle<ConcreteDiscreteCaseOracle.Option, Integer, String>{
+
+        protected ConcreteDiscreteCaseOracle() {
+            super(ConcreteDiscreteCaseOracle.Option.class);
+        }
+
         @Override
         protected Function<Option, Function<Integer, String>> underlyingSystemUnderTestFunction() {
             return options -> {
@@ -64,34 +104,7 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle
         //TODO: fix low cohesion: enum adapter and verification provider both declaring different sides of a relation
 
         @Override
-        protected EnumAdapter<Option, Integer> enumAdapter() {
-            return new EnumAdapter<Option, Integer>() {
-                @Override
-                protected EnumMap<Option, Integer> enumMap() {
-                    Map<Option, Integer> map = new HashMap<>();
-                    for (Option option : Option.values()) {
-                        map.put(option, pairGenerator().apply(option).getKey());
-                    }
-                    return new EnumMap<>(map);
-                }
-            };
-        }
-
-        @Override
-        protected DiscreteCaseVerificationProvider<Option, String> discreteCaseVerificationProvider(){
-            return new DiscreteCaseVerificationProvider<Option, String>() {
-                @Override
-                protected Map<Option, String> casePairs() {
-                    Map<Option, String> map = new HashMap<>();
-                    for (Option option : Option.values()){
-                        map.put(option, pairGenerator().apply(option).getValue());
-                    }
-                    return ImmutableMap.copyOf(map);
-                }
-            };
-        }
-
-        private Function<Option, Pair<Integer, String>> pairGenerator(){
+        protected Function<Option, Pair<Integer, String>> pairGenerator(){
             return new Function<Option, Pair<Integer, String>>() {
                 @Override
                 public Pair<Integer, String> apply(Option option) {
