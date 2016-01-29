@@ -1,4 +1,4 @@
-package com.grayben.tools.testOracle.oracle;
+package com.grayben.tools.testOracle.oracle.passive;
 
 import java.util.function.Function;
 import java.util.function.Predicate;

@@ -1,5 +1,6 @@
 package com.grayben.tools.testOracle.oracle;
 
+import com.grayben.tools.testOracle.oracle.passive.DiscreteCasePassiveOracle;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;

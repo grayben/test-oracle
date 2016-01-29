@@ -3,8 +3,8 @@ package com.grayben.tools.testOracle.configuration;
 import com.google.common.collect.ImmutableMap;
 import com.grayben.tools.testOracle.SystemUnderTest;
 import com.grayben.tools.testOracle.configuration.input.EnumAdapter;
-import com.grayben.tools.testOracle.oracle.DiscreteCasePassiveOracle;
-import com.grayben.tools.testOracle.oracle.PassiveOracle;
+import com.grayben.tools.testOracle.oracle.passive.DiscreteCasePassiveOracle;
+import com.grayben.tools.testOracle.oracle.passive.PassiveOracle;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.EnumMap;

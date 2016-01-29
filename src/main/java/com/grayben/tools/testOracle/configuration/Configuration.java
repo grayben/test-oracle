@@ -1,7 +1,7 @@
 package com.grayben.tools.testOracle.configuration;
 
 import com.grayben.tools.testOracle.SystemUnderTest;
-import com.grayben.tools.testOracle.oracle.PassiveOracle;
+import com.grayben.tools.testOracle.oracle.passive.PassiveOracle;
 
 /**
  * Created by beng on 28/01/2016.
