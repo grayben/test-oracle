@@ -1,23 +1,19 @@
-package com.grayben.tools.testOracle;
-
-import com.grayben.tools.math.parametricEquation.ParametricEquation;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.function.Function;
-
-import static org.junit.Assert.assertEquals;
+package com.grayben.tools.testOracle.oracle.old;
 
 /**
  * Created by beng on 20/01/2016.
  */
-public class ParametricTestOracle<P, I, O> implements TestOracle<P, I, O> {
+public abstract class ParametricOracle<P, I, O> {}
+        /*
+
+        extends Oracle<P, O> {
     private final ParametricEquation<P, I, O> parametricEquation;
 
-    public ParametricTestOracle(ParametricEquation<P, I, O> parametricEquation) {
+    public ParametricOracle(ParametricEquation<P, I, O> parametricEquation) {
         this.parametricEquation = parametricEquation;
     }
 
-    @Override
+    //@Override
     public void validate(Function<I, O> operation, P parameter){
         Pair<I, O> oraclePair = getInputAndExpectedOutput(parameter);
         I input = oraclePair.getLeft();
@@ -41,3 +37,5 @@ public class ParametricTestOracle<P, I, O> implements TestOracle<P, I, O> {
         return parametricEquation.apply(parameter);
     }
 }
+
+        */

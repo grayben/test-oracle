@@ -1,8 +1,12 @@
-package com.grayben.tools.testOracle;
+package com.grayben.tools.testOracle.oracle;
 
 import com.grayben.tools.math.parametricEquation.ParametricEquation;
+import com.grayben.tools.testOracle.oracle.old.ParametricOracle;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -13,7 +17,10 @@ import java.util.function.Function;
  * Created by beng on 20/01/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ParametricTestOracleTest {
+public class ParametricTestOracle {}
+/*
+
+{
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -22,7 +29,7 @@ public class ParametricTestOracleTest {
     private Function<Integer, String> functionMatchingOracleTypeButNotRelation;
     private Function<Integer, Integer> functionNotMatchingOracleType;
     private ParametricEquation<Integer, Integer, String> oracleSutParametricEquation;
-    private ParametricTestOracle<Integer, Integer, String> oracleSut;
+    private ParametricOracle<Integer, Integer, String> oracleSut;
 
     @Before
     public void setUp() throws Exception {
@@ -58,7 +65,7 @@ public class ParametricTestOracleTest {
         this.oracleSutParametricEquation = null;
     }
     private void setUpSut(){
-        this.oracleSut = new ParametricTestOracle<>(this.oracleSutParametricEquation);
+        this.oracleSut = new ParametricOracle<>(this.oracleSutParametricEquation);
     }
 
     private void tearDownSut(){
@@ -80,3 +87,4 @@ public class ParametricTestOracleTest {
         oracleSut.validate(functionMatchingOracleTypeButNotRelation, anArbitraryParameter);
     }
 }
+*/
