@@ -11,28 +11,27 @@ import java.util.function.Function;
  */
 public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle<E, O> {
 
-    private final Function<I, O> underlyingSystemUnderTest;
-
     private final EnumAdapter<E, I> enumAdapter;
+    private final Function<I, O> underlyingSystemUnderTest;
+    private final DiscreteCaseVerificationProvider<I, O> underlyingVerificationProvider;
 
     protected abstract EnumAdapter<E,I> enumAdapter();
-
     protected abstract Function<I,O> underlyingSystemUnderTest();
+    protected abstract DiscreteCaseVerificationProvider<I, O> discreteCaseVerificationProvider();
 
     protected DiscreteCaseOracle() {
         underlyingSystemUnderTest = underlyingSystemUnderTest();
         enumAdapter = enumAdapter();
+        underlyingVerificationProvider = discreteCaseVerificationProvider();
     }
 
     @Override
-    protected Function<E, O> systemUnderTest() {
+    final protected Function<E, O> systemUnderTest() {
         return enumAdapter.andThen(underlyingSystemUnderTest);
     }
 
     @Override
     final protected VerificationProvider<E, O> verificationProvider() {
-        return discreteCaseVerificationProvider();
+        return (e, o) -> underlyingVerificationProvider.test(enumAdapter.apply(e), o);
     }
-
-    protected abstract DiscreteCaseVerificationProvider<E, O> discreteCaseVerificationProvider();
 }
