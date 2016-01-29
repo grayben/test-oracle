@@ -3,7 +3,7 @@ package com.grayben.tools.testOracle.old;
 /**
  * Created by beng on 24/01/2016.
  */
-public abstract class DirectFunctionOracle<I, O> {}
+abstract class DirectFunctionOracle<I, O> {}
 /*
 extends TestContainer<I, O> {
 

@@ -3,7 +3,7 @@ package com.grayben.tools.testOracle.old;
 /**
  * Created by beng on 20/01/2016.
  */
-public abstract class ParametricOracle<P, I, O> {}
+abstract class ParametricOracle<P, I, O> {}
         /*
 
         extends TestContainer<P, O> {
