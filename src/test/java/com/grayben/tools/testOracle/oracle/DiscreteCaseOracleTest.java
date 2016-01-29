@@ -1,5 +1,6 @@
 package com.grayben.tools.testOracle.oracle;
 
+import com.grayben.tools.testOracle.SystemUnderTest;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
@@ -17,34 +18,26 @@ import static junit.framework.TestCase.assertTrue;
 @RunWith(MockitoJUnitRunner.class)
 public class DiscreteCaseOracleTest {
 
-    public enum FunctionOption {
+    public enum SystemUnderTestOption {
         SIMPLE(String::valueOf),
         COMPLICATED(integer -> "Number " + String.valueOf(integer));
 
-        private final Function<Integer, String> function;
+        private final SystemUnderTest<Integer, String> systemUnderTest;
 
-        public Function<Integer, String> getFunction(){
-            return this.function;
+        public SystemUnderTest<Integer, String> getSystemUnderTest(){
+            return this.systemUnderTest;
         }
 
-        FunctionOption(Function<Integer, String> function) {
-            this.function = function;
+        SystemUnderTestOption(SystemUnderTest<Integer, String> systemUnderTest) {
+            this.systemUnderTest = systemUnderTest;
         }
     }
 
     @Test
     public void test_TestReturnsFalse_WhenEnumAdapterDoesNotMatchUnderlyingSUTFunction() throws Exception {
 
-        DiscreteCaseOracle<FunctionOption, Integer, String> oracle = new DiscreteCaseOracle<FunctionOption, Integer, String>(FunctionOption.class){
-
-            @Override
-            protected Function<FunctionOption, Function<Integer, String>> systemUnderTestGenerator() {
-                return FunctionOption::getFunction;
-            }
-
-            @Override
-            protected Function<FunctionOption, Pair<Integer, String>> pairGenerator() {
-                return functionOption -> {
+        Function<SystemUnderTestOption, Pair<Integer, String>> pairGenerator
+                = functionOption -> {
                     switch (functionOption){
                         case SIMPLE:
                             return new ImmutablePair<>(1, "foobar");
@@ -53,43 +46,43 @@ public class DiscreteCaseOracleTest {
                     }
                     throw new IllegalArgumentException("The option was not recognised");
                 };
-            }
-        };
 
-        assertFalse(oracle.validate(FunctionOption.SIMPLE));
-        assertFalse(oracle.validate(FunctionOption.COMPLICATED));
+        DiscreteCaseOracle<SystemUnderTestOption, Integer, String> oracle = new DiscreteCaseOracle<>(
+                SystemUnderTestOption.class,
+                SystemUnderTestOption::getSystemUnderTest,
+                pairGenerator
+        );
+
+        assertFalse(oracle.validate(SystemUnderTestOption.SIMPLE));
+        assertFalse(oracle.validate(SystemUnderTestOption.COMPLICATED));
 
     }
 
     @Test
     public void test_TestReturnsTrue_WhenEnumAdapterDoesMatchUnderlyingSUTFunction() throws Exception {
 
-        DiscreteCaseOracle<FunctionOption, Integer, String> oracle = new DiscreteCaseOracle<FunctionOption, Integer, String>(FunctionOption.class){
-
-            @Override
-            protected Function<FunctionOption, Function<Integer, String>> systemUnderTestGenerator() {
-                return FunctionOption::getFunction;
+        Function<SystemUnderTestOption, Pair<Integer, String>> pairGenerator
+                = functionOption -> {
+            Integer input = null;
+            switch (functionOption){
+                case SIMPLE:
+                    input = 1;
+                    return new ImmutablePair<>(input, functionOption.getSystemUnderTest().apply(input));
+                case COMPLICATED:
+                    input = 555;
+                    return new ImmutablePair<>(input, functionOption.getSystemUnderTest().apply(input));
             }
-
-            @Override
-            protected Function<FunctionOption, Pair<Integer, String>> pairGenerator() {
-                return functionOption -> {
-                    Integer input = null;
-                    switch (functionOption){
-                        case SIMPLE:
-                            input = 1;
-                            return new ImmutablePair<>(input, functionOption.getFunction().apply(input));
-                        case COMPLICATED:
-                            input = 555;
-                            return new ImmutablePair<>(input, functionOption.getFunction().apply(input));
-                    }
-                    throw new IllegalArgumentException("The option was not recognised");
-                };
-            }
+            throw new IllegalArgumentException("The option was not recognised");
         };
 
-        assertTrue(oracle.validate(FunctionOption.SIMPLE));
-        assertTrue(oracle.validate(FunctionOption.COMPLICATED));
+        DiscreteCaseOracle<SystemUnderTestOption, Integer, String> oracle = new DiscreteCaseOracle<>(
+                SystemUnderTestOption.class,
+                SystemUnderTestOption::getSystemUnderTest,
+                pairGenerator
+        );
+
+        assertTrue(oracle.validate(SystemUnderTestOption.SIMPLE));
+        assertTrue(oracle.validate(SystemUnderTestOption.COMPLICATED));
 
     }
 }
