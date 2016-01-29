@@ -17,7 +17,10 @@ import java.util.function.Function;
  * Created by beng on 20/01/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ParametricTestOracle {
+public class ParametricTestOracle {}
+/*
+
+{
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -84,3 +87,4 @@ public class ParametricTestOracle {
         oracleSut.validate(functionMatchingOracleTypeButNotRelation, anArbitraryParameter);
     }
 }
+*/

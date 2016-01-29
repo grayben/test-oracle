@@ -1,13 +1,11 @@
 package com.grayben.tools.testOracle.oracle.old;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-
-import java.util.function.Function;
-
 /**
  * Created by beng on 24/01/2016.
  */
-public class DirectFunctionOracle<I, O> implements Oracle<I, I, O> {
+public abstract class DirectFunctionOracle<I, O> {}
+/*
+extends Oracle<I, O> {
 
     private final ParametricOracle<I, I, O> parametricOracle;
 
@@ -18,8 +16,8 @@ public class DirectFunctionOracle<I, O> implements Oracle<I, I, O> {
         });
     }
 
-    @Override
     public void validate(Function<I, O> operation, I parameter) {
         this.parametricOracle.validate(operation, parameter);
     }
 }
+*/
