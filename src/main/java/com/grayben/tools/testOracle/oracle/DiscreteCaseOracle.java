@@ -41,14 +41,10 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle
 
     @Override
     final protected Function<E, O> systemUnderTest() {
-        return new Function<E, O>() {
-            @Override
-            public O apply(E e) {
-                Function<I, O> underlyingSystemUnderTest = underlyingSystemUnderTestFunction.apply(e);
-                I transformedInput = enumAdapter.apply(e);
-                O actualOutput = underlyingSystemUnderTest.apply(transformedInput);
-                return actualOutput;
-            }
+        return e -> {
+            Function<I, O> underlyingSystemUnderTest = underlyingSystemUnderTestFunction.apply(e);
+            I transformedInput = enumAdapter.apply(e);
+            return underlyingSystemUnderTest.apply(transformedInput);
         };
     }
 
@@ -83,7 +79,7 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle
 
 
 
-    public static class ConcreteDiscreteCaseOracle
+    private static class ConcreteDiscreteCaseOracle
             extends DiscreteCaseOracle<ConcreteDiscreteCaseOracle.Option, Integer, String>{
 
         protected ConcreteDiscreteCaseOracle() {
@@ -101,19 +97,14 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle
             };
         }
 
-        //TODO: fix low cohesion: enum adapter and verification provider both declaring different sides of a relation
-
         @Override
         protected Function<Option, Pair<Integer, String>> pairGenerator(){
-            return new Function<Option, Pair<Integer, String>>() {
-                @Override
-                public Pair<Integer, String> apply(Option option) {
-                    switch (option) {
-                        case SIMPLE:
-                            return new ImmutablePair<>(1, "2");
-                    }
-                    throw new IllegalArgumentException("Did not recognise the Option given");
+            return option -> {
+                switch (option) {
+                    case SIMPLE:
+                        return new ImmutablePair<>(1, "2");
                 }
+                throw new IllegalArgumentException("Did not recognise the Option given");
             };
         }
 
