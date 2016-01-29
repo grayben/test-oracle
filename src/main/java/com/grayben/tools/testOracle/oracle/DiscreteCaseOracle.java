@@ -69,9 +69,9 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle
                 @Override
                 protected EnumMap<Option, Integer> enumMap() {
                     Map<Option, Integer> map = new HashMap<>();
-                    // TODO: fix low cohesion: enum adapter and verification provider
-                    // TODO: both declaring different sides of a relation
-                    map.put(Option.SIMPLE, 1);
+                    for (Option option : Option.values()) {
+                        map.put(option, pairGenerator().apply(option).getKey());
+                    }
                     return new EnumMap<>(map);
                 }
             };
@@ -83,10 +83,9 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle
                 @Override
                 protected Map<Option, String> casePairs() {
                     Map<Option, String> map = new HashMap<>();
-                    Integer theRightSimpleInput = 1;
-                    //TODO: fix low cohesion: enum adapter and verification provider
-                    //TODO: both declaring different sides of a relation
-                    map.put(Option.SIMPLE, String.valueOf(2 * theRightSimpleInput));
+                    for (Option option : Option.values()){
+                        map.put(option, pairGenerator().apply(option).getValue());
+                    }
                     return ImmutableMap.copyOf(map);
                 }
             };
@@ -96,18 +95,13 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle
             return new Function<Option, Pair<Integer, String>>() {
                 @Override
                 public Pair<Integer, String> apply(Option option) {
-                    return null;
+                    switch (option) {
+                        case SIMPLE:
+                            return new ImmutablePair<>(1, "2");
+                    }
+                    throw new IllegalArgumentException("Did not recognise the Option given");
                 }
             };
-        }
-
-        protected Pair<Integer, String> getPair(Option option){
-
-            switch (option) {
-                case SIMPLE:
-                    return new ImmutablePair<>(1, "One");
-            }
-            throw new IllegalArgumentException("The option was not recognised");
         }
 
         public enum Option {
