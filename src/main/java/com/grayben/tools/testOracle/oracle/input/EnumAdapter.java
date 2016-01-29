@@ -5,7 +5,7 @@ import java.util.EnumMap;
 /**
  * Created by beng on 28/01/2016.
  */
-public abstract class EnumAdapter<E extends Enum<E>, I> extends InputAdapter<E, I> {
+public abstract class EnumAdapter<E extends Enum<E>, I> implements InputAdapter<E, I> {
 
     private final EnumMap<E, I> enumMap;
     protected abstract EnumMap<E, I> enumMap();
