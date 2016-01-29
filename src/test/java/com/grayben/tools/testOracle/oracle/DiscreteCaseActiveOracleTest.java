@@ -1,6 +1,6 @@
 package com.grayben.tools.testOracle.oracle;
 
-import com.grayben.tools.testOracle.oracle.passive.DiscreteCasePassiveOracle;
+import com.grayben.tools.testOracle.oracle.active.DiscreteCaseActiveOracle;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,12 +18,12 @@ import static org.junit.Assert.*;
  * Created by beng on 29/01/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DiscreteCasePassiveOracleTest {
+public class DiscreteCaseActiveOracleTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    DiscreteCasePassiveOracle<Integer, String> discreteCaseVerificationProvider;
+    DiscreteCaseActiveOracle<Integer, String> discreteCaseVerificationProvider;
 
     @After
     public void tearDown() throws Exception {
@@ -31,30 +31,30 @@ public class DiscreteCasePassiveOracleTest {
     }
 
     @Test
-    public void test_TestThrowsIllegalArgumentException_WhenCasePairsReturnsEmptyMap() throws Exception {
+    public void test_ApplyThrowsIllegalArgumentException_WhenCasePairsReturnsEmptyMap() throws Exception {
         Map<Integer, String> casePairs = new HashMap<>();
-        discreteCaseVerificationProvider = new DiscreteCasePassiveOracle<>(casePairs);
+        discreteCaseVerificationProvider = new DiscreteCaseActiveOracle<>(casePairs);
         thrown.expect(IllegalArgumentException.class);
-        discreteCaseVerificationProvider.test(new Integer(1), "One");
+        discreteCaseVerificationProvider.apply(new Integer(1));
     }
 
     @Test
-    public void test_TestReturnsTrue_WhenInputEntryInMapReturnedByCasePairs() throws Exception {
+    public void test_ApplyReturnsSame_WhenInputEntryInMapReturnedByCasePairs() throws Exception {
         Map<Integer, String> casePairs = new HashMap<>();
         casePairs.put(1, "One");
         casePairs.put(2, "Two");
-        discreteCaseVerificationProvider = new DiscreteCasePassiveOracle<>(casePairs);
+        discreteCaseVerificationProvider = new DiscreteCaseActiveOracle<>(casePairs);
         Map.Entry<Integer, String> entry = casePairs.entrySet().iterator().next();
-        boolean returned = discreteCaseVerificationProvider.test(entry.getKey(), entry.getValue());
-        assertTrue(returned);
+        String returned = discreteCaseVerificationProvider.apply(entry.getKey());
+        assertEquals(entry.getValue(), returned);
     }
 
     @Test
-    public void test_TestReturnsFalse_WhenInputValueNotMappedByCasePairs() throws Exception {
+    public void test_ApplyReturnsDifferent_WhenInputValueNotMappedByCasePairs() throws Exception {
         Map<Integer, String> casePairs = new HashMap<>();
         casePairs.put(1, "One");
         casePairs.put(2, "Two");
-        discreteCaseVerificationProvider = new DiscreteCasePassiveOracle<>(casePairs);
+        discreteCaseVerificationProvider = new DiscreteCaseActiveOracle<>(casePairs);
         Map.Entry<Integer, String> entry = new AbstractMap.SimpleImmutableEntry<>(2, "Fourteen");
         if (casePairs.containsKey(entry.getKey()) == false){
             throw new IllegalStateException("The entry.key must be found in the verification provider casePairs");
@@ -65,8 +65,8 @@ public class DiscreteCasePassiveOracleTest {
             );
         }
 
-        boolean returned = discreteCaseVerificationProvider.test(entry.getKey(), entry.getValue());
-        assertFalse(returned);
+        String returned = discreteCaseVerificationProvider.apply(entry.getKey());
+        assertNotEquals(entry.getValue(), returned);
     }
 
 }

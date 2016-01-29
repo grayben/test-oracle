@@ -2,7 +2,8 @@ package com.grayben.tools.testOracle.configuration;
 
 import com.grayben.tools.testOracle.SystemUnderTest;
 import com.grayben.tools.testOracle.configuration.input.EnumAdapter;
-import com.grayben.tools.testOracle.oracle.passive.DiscreteCasePassiveOracle;
+import com.grayben.tools.testOracle.oracle.ActiveToPassiveOracleAdapter;
+import com.grayben.tools.testOracle.oracle.active.DiscreteCaseActiveOracle;
 import com.grayben.tools.testOracle.oracle.passive.PassiveOracle;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -50,7 +51,7 @@ public class DiscreteCaseConfiguration<E extends Enum<E>, I, O>{
         for (E option : EnumSet.allOf(enumClass)) {
             casePairs.put(option, pairGenerator.apply(option).getValue());
         }
-        return new DiscreteCasePassiveOracle<>(casePairs);
+        return new ActiveToPassiveOracleAdapter<>(new DiscreteCaseActiveOracle<>(casePairs));
     }
 
     final public boolean validate(E discreteCase){
