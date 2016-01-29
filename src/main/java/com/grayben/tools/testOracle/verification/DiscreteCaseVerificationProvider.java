@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Created by beng on 28/01/2016.
  */
-public abstract class DiscreteCaseVerificationProvider<I, O> implements PassiveVerificationProvider<I, O> {
+public abstract class DiscreteCaseVerificationProvider<I, O> implements VerificationProvider<I, O> {
 
     private final Map<I, O> casePairs;
 
