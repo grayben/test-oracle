@@ -35,30 +35,22 @@ public class DiscreteCaseOracle<E extends Enum<E>, I, O>{
         this.systemUnderTestGenerator = systemUnderTestGenerator;
         this.pairGenerator = pairGenerator;
         enumAdapter = enumAdapter();
-        delegateOracle = new Oracle<E, O>() {
+        SystemUnderTest<E, O> systemUnderTest = e -> {
+            SystemUnderTest<I, O> systemUnderTest1 = DiscreteCaseOracle.this.systemUnderTestGenerator.apply(e);
+            I transformedInput = enumAdapter.apply(e);
+            return systemUnderTest1.apply(transformedInput);
+        };
+        VerificationProvider<E, O> verificationProvider = new DiscreteCaseVerificationProvider<E, O>() {
             @Override
-            protected SystemUnderTest<E, O> systemUnderTest() {
-                return e -> {
-                    SystemUnderTest<I, O> systemUnderTest = DiscreteCaseOracle.this.systemUnderTestGenerator.apply(e);
-                    I transformedInput = enumAdapter.apply(e);
-                    return systemUnderTest.apply(transformedInput);
-                };
-            }
-
-            @Override
-            protected VerificationProvider<E, O> verificationProvider() {
-                return new DiscreteCaseVerificationProvider<E, O>() {
-                    @Override
-                    protected Map<E, O> casePairs() {
-                        Map<E, O> map = new HashMap<>();
-                        for (E option : EnumSet.allOf(enumClass)){
-                            map.put(option, DiscreteCaseOracle.this.pairGenerator.apply(option).getValue());
-                        }
-                        return ImmutableMap.copyOf(map);
-                    }
-                };
+            protected Map<E, O> casePairs() {
+                Map<E, O> map = new HashMap<>();
+                for (E option : EnumSet.allOf(enumClass)) {
+                    map.put(option, DiscreteCaseOracle.this.pairGenerator.apply(option).getValue());
+                }
+                return ImmutableMap.copyOf(map);
             }
         };
+        delegateOracle = new Oracle<>(systemUnderTest, verificationProvider);
     }
 
     private EnumAdapter<E, I> enumAdapter() {
