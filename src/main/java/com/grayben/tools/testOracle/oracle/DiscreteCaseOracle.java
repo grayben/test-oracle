@@ -5,7 +5,6 @@ import com.grayben.tools.testOracle.SystemUnderTest;
 import com.grayben.tools.testOracle.oracle.input.EnumAdapter;
 import com.grayben.tools.testOracle.verification.DiscreteCaseVerificationProvider;
 import com.grayben.tools.testOracle.verification.VerificationProvider;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.EnumMap;
@@ -78,52 +77,4 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O>{
     protected abstract Function<E, SystemUnderTest<I,O>> systemUnderTestGenerator();
 
     protected abstract Function<E, Pair<I, O>> pairGenerator();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private static class ConcreteDiscreteCaseOracle
-            extends DiscreteCaseOracle<ConcreteDiscreteCaseOracle.Option, Integer, String>{
-
-        protected ConcreteDiscreteCaseOracle() {
-            super(ConcreteDiscreteCaseOracle.Option.class);
-        }
-
-        @Override
-        protected Function<Option, Function<Integer, String>> systemUnderTestGenerator() {
-            return options -> {
-                switch (options){
-                    case SIMPLE:
-                        return integer -> String.valueOf(2 * integer);
-                }
-                throw new IllegalArgumentException("The input option was not recognised");
-            };
-        }
-
-        @Override
-        protected Function<Option, Pair<Integer, String>> pairGenerator(){
-            return option -> {
-                switch (option) {
-                    case SIMPLE:
-                        return new ImmutablePair<>(1, "2");
-                }
-                throw new IllegalArgumentException("Did not recognise the Option given");
-            };
-        }
-
-        public enum Option {
-            SIMPLE
-        }
-
-    }
 }
