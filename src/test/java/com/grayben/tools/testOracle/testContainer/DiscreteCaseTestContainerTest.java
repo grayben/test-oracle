@@ -34,7 +34,7 @@ public class DiscreteCaseTestContainerTest {
     @Test
     public void test_TestReturnsFalse_WhenEnumAdapterDoesNotMatchUnderlyingSUTFunction() throws Exception {
 
-        Function<SystemUnderTestOption, Pair<Integer, String>> pairGenerator
+        PairGenerator<SystemUnderTestOption, Integer, String> pairGenerator
                 = functionOption -> {
                     switch (functionOption){
                         case SIMPLE:
@@ -59,7 +59,7 @@ public class DiscreteCaseTestContainerTest {
     @Test
     public void test_TestReturnsTrue_WhenEnumAdapterDoesMatchUnderlyingSUTFunction() throws Exception {
 
-        Function<SystemUnderTestOption, Pair<Integer, String>> pairGenerator
+        PairGenerator<SystemUnderTestOption, Integer, String> pairGenerator
                 = functionOption -> {
             Integer input = null;
             switch (functionOption){

@@ -22,7 +22,7 @@ public class DiscreteCaseTestContainer<E extends Enum<E>, I, O>{
 
     public DiscreteCaseTestContainer(Class<E> enumClass,
                                      Function<E, SystemUnderTest<I, O>> systemUnderTestGenerator,
-                                     Function<E, Pair<I, O>> pairGenerator) {
+                                     PairGenerator<E, I, O> pairGenerator) {
         EnumAdapter<E, I> enumAdapter = enumAdapter(enumClass, pairGenerator);
         PassiveOracle<E, O> passiveOracle = passiveOracle(enumClass, pairGenerator);
         SystemUnderTest<E, O> systemUnderTest = systemUnderTest(enumAdapter, systemUnderTestGenerator);
