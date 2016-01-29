@@ -5,7 +5,7 @@ import java.util.function.Function;
 /**
  * Created by beng on 28/01/2016.
  */
-final public class AlternateImplementationActiveOracle<I, O> implements ActiveOracle<I, O> {
+final public class AlternateImplementationActiveOracle<I, O> extends AbstractActiveOracle<I, O> {
 
     private final Function<I, O> alternateImplementation;
 

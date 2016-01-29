@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Created by beng on 28/01/2016.
  */
-final public class DiscreteCaseActiveOracle<I, O> implements ActiveOracle<I, O> {
+final public class DiscreteCaseActiveOracle<I, O> extends AbstractActiveOracle<I, O> {
 
     private final Map<I, O> casePairs;
 
