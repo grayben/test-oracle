@@ -1,8 +1,8 @@
 package com.grayben.tools.testOracle.oracle;
 
 import com.grayben.tools.testOracle.oracle.input.EnumAdapter;
-import com.grayben.tools.testOracle.verification.DiscreteCaseVerificationProvider;
 import com.grayben.tools.testOracle.verification.VerificationProvider;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.function.Function;
 
@@ -11,27 +11,24 @@ import java.util.function.Function;
  */
 public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle<E, O> {
 
-    private final EnumAdapter<E, I> enumAdapter;
-    private final Function<I, O> underlyingSystemUnderTest;
-    private final DiscreteCaseVerificationProvider<I, O> underlyingVerificationProvider;
+    private final EnumAdapter<E, Pair<I, O>> enumAdapter;
+    private final Function<E, Function<I, O>> underlyingSystemUnderTestFunction;
 
-    protected abstract EnumAdapter<E,I> enumAdapter();
-    protected abstract Function<I,O> underlyingSystemUnderTest();
-    protected abstract DiscreteCaseVerificationProvider<I, O> discreteCaseVerificationProvider();
+    protected abstract EnumAdapter<E,Pair<I, O>> enumAdapter();
+    protected abstract Function<E, Function<I,O>> underlyingSystemUnderTestFunction();
 
     protected DiscreteCaseOracle() {
-        underlyingSystemUnderTest = underlyingSystemUnderTest();
+        underlyingSystemUnderTestFunction = underlyingSystemUnderTestFunction();
         enumAdapter = enumAdapter();
-        underlyingVerificationProvider = discreteCaseVerificationProvider();
     }
 
     @Override
     final protected Function<E, O> systemUnderTest() {
-        return enumAdapter.andThen(underlyingSystemUnderTest);
+        return e -> underlyingSystemUnderTestFunction.apply(e).apply(enumAdapter.apply(e).getKey());
     }
 
     @Override
     final protected VerificationProvider<E, O> verificationProvider() {
-        return (e, o) -> underlyingVerificationProvider.test(enumAdapter.apply(e), o);
+        return (e, o) -> enumAdapter.apply(e).getRight().equals(o);
     }
 }
