@@ -16,20 +16,26 @@ import java.util.function.Function;
 /**
  * Created by beng on 28/01/2016.
  */
-public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle<E, O> {
+public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O>{
+
+    private final Oracle<E, O> delegateOracle;
 
     private final Class<E> enumClass;
 
-    private final EnumAdapter<E, I> enumAdapter = new EnumAdapter<E, I>() {
-        @Override
-        protected EnumMap<E, I> enumMap() {
-            Map<E, I> map = new HashMap<>();
-            for (E option : EnumSet.allOf(enumClass)) {
-                map.put(option, pairGenerator.apply(option).getKey());
+    private final EnumAdapter<E, I> enumAdapter;
+
+    private final EnumAdapter<E, I> enumAdapter() {
+        return new EnumAdapter<E, I>() {
+            @Override
+            protected EnumMap<E, I> enumMap() {
+                Map<E, I> map = new HashMap<>();
+                for (E option : EnumSet.allOf(enumClass)) {
+                    map.put(option, pairGenerator.apply(option).getKey());
+                }
+                return new EnumMap<>(map);
             }
-            return new EnumMap<>(map);
-        }
-    };
+        };
+    }
 
     private final Function<E, Function<I, O>> underlyingSystemUnderTestFunction = underlyingSystemUnderTestFunction();
 
@@ -37,29 +43,35 @@ public abstract class DiscreteCaseOracle<E extends Enum<E>, I, O> extends Oracle
 
     protected DiscreteCaseOracle(Class<E> enumClass) {
         this.enumClass = enumClass;
-    }
-
-    @Override
-    final protected Function<E, O> systemUnderTest() {
-        return e -> {
-            Function<I, O> underlyingSystemUnderTest = underlyingSystemUnderTestFunction.apply(e);
-            I transformedInput = enumAdapter.apply(e);
-            return underlyingSystemUnderTest.apply(transformedInput);
-        };
-    }
-
-    @Override
-    final protected VerificationProvider<E, O> verificationProvider() {
-        return new DiscreteCaseVerificationProvider<E, O>() {
+        enumAdapter = enumAdapter();
+        delegateOracle = new Oracle<E, O>() {
             @Override
-            protected Map<E, O> casePairs() {
-                Map<E, O> map = new HashMap<>();
-                for (E option : EnumSet.allOf(enumClass)){
-                    map.put(option, pairGenerator.apply(option).getValue());
-                }
-                return ImmutableMap.copyOf(map);
+            protected Function<E, O> systemUnderTest() {
+                return e -> {
+                    Function<I, O> underlyingSystemUnderTest = underlyingSystemUnderTestFunction.apply(e);
+                    I transformedInput = enumAdapter.apply(e);
+                    return underlyingSystemUnderTest.apply(transformedInput);
+                };
+            }
+
+            @Override
+            protected VerificationProvider<E, O> verificationProvider() {
+                return new DiscreteCaseVerificationProvider<E, O>() {
+                    @Override
+                    protected Map<E, O> casePairs() {
+                        Map<E, O> map = new HashMap<>();
+                        for (E option : EnumSet.allOf(enumClass)){
+                            map.put(option, pairGenerator.apply(option).getValue());
+                        }
+                        return ImmutableMap.copyOf(map);
+                    }
+                };
             }
         };
+    }
+
+    final public boolean validate(E discreteCase){
+        return delegateOracle.validate(discreteCase);
     }
 
     protected abstract Function<E, Function<I,O>> underlyingSystemUnderTestFunction();
