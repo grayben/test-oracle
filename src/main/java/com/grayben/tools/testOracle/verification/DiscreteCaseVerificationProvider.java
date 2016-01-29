@@ -23,7 +23,7 @@ public abstract class DiscreteCaseVerificationProvider<I, O> implements Verifica
                     "The input case given is not covered by this verification provider"
             );
         }
-        if (casePairs.get(input) == output)
+        if (casePairs.get(input).equals(output))
             return true;
         else
             return false;
