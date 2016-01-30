@@ -16,8 +16,18 @@ import java.util.function.Function;
  */
 final public class AlternateImplementationActiveOracle<I, O> implements ActiveOracle<I, O> {
 
+    /**
+     * The alternate implementation with which to determine the expected output of a given input
+     */
     private final Function<I, O> alternateImplementation;
 
+    /**
+     * Constructs an {@link AlternateImplementationActiveOracle}
+     * which utilises the specified alternate implementation
+     * of the target system under test.
+     * @param alternateImplementation the alternate implementation of the target system under test
+     * @see com.grayben.tools.testOracle.SystemUnderTest
+     */
     public AlternateImplementationActiveOracle(Function<I, O> alternateImplementation) {
         this.alternateImplementation = alternateImplementation;
     }
