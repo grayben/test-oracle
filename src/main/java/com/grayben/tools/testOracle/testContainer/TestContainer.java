@@ -61,6 +61,11 @@ public class TestContainer<I, O>{
         this.passiveOracleProvider = input -> Oracles.passiveOracle(activeOracle);
     }
 
+    private TestContainer(Builder<I, O> builder){
+        this.passiveOracleProvider = builder.passiveOracleProvider;
+        this.systemUnderTestProvider = builder.systemUnderTestProvider;
+    }
+
     /**
      * For the specified input, verify the system under test on the specified input.
      * @param input the input to the {@link SystemUnderTest} encapsulated by this {@link TestContainer}
@@ -71,5 +76,89 @@ public class TestContainer<I, O>{
         O actualOutput = selectedSystemUnderTest.apply(input);
         PassiveOracle<I, O> selectedPassiveOracle = passiveOracleProvider.apply(input);
         return selectedPassiveOracle.test(input, actualOutput);
+    }
+
+    private interface IBeginBuild<I, O> {}
+
+    private interface ISystemUnderTest<I, O> extends IBeginBuild<I, O> {
+        IOracle systemUnderTest(SystemUnderTest<I, O> systemUnderTest);
+        IOracle systemUnderTestProvider(Function<I, SystemUnderTest<I, O>> systemUnderTestProvider);
+    }
+
+    private interface IOracle<I, O> {
+        IBuild oracle(PassiveOracle<I, O> passiveOracle);
+
+        IBuild passiveOracleProvider(Function<I, PassiveOracle<I, O>> passiveOracleProvider);
+
+        IBuild oracle(ActiveOracle<I, O> activeOracle);
+
+        IBuild activeOracleProvider(Function<I, ? extends ActiveOracle<I, O>> activeOracleProvider);
+    }
+
+    private interface IBuild<I, O> {
+        TestContainer<I, O> build();
+    }
+
+    public interface TestContainerBuilder<I, O>
+            extends ISystemUnderTest<I, O>,
+            IOracle<I, O>,
+            IBuild<I, O> {}
+
+    public static class Builder<I, O> implements TestContainerBuilder<I,O> {
+        private Function<I, SystemUnderTest<I, O>> systemUnderTestProvider;
+        private Function<I, PassiveOracle<I, O>> passiveOracleProvider;
+
+        public Builder(){}
+
+        public ISystemUnderTest<I, O> begin(){
+            return this;
+        }
+
+        @Override
+        public TestContainer<I, O> build() {
+            return new TestContainer<>(this);
+        }
+
+        @Override
+        public IOracle systemUnderTest(SystemUnderTest<I, O> systemUnderTest) {
+            this.systemUnderTestProvider = input -> systemUnderTest;
+            return this;
+        }
+
+        @Override
+        public IOracle systemUnderTestProvider(Function<I, SystemUnderTest<I, O>> systemUnderTestProvider) {
+            this.systemUnderTestProvider = systemUnderTestProvider;
+            return this;
+        }
+
+        @Override
+        public IBuild oracle(PassiveOracle<I, O> passiveOracle) {
+            this.passiveOracleProvider = input -> passiveOracle;
+            return this;
+        }
+
+        @Override
+        public IBuild passiveOracleProvider(Function<I, PassiveOracle<I, O>> passiveOracleProvider) {
+            this.passiveOracleProvider = passiveOracleProvider;
+            return this;
+        }
+
+        @Override
+        public IBuild oracle(ActiveOracle<I, O> activeOracle) {
+            this.passiveOracleProvider = input -> Oracles.passiveOracle(activeOracle);
+            return this;
+        }
+
+        @Override
+        public IBuild activeOracleProvider(Function<I, ? extends ActiveOracle<I, O>> activeOracleProvider) {
+            this.passiveOracleProvider = input -> Oracles.passiveOracle(activeOracleProvider.apply(input));
+            return this;
+        }
+    }
+
+    public static void main(){
+        Builder<Integer, String> testContainerBuilder = new Builder<>();
+        testContainerBuilder.begin().systemUnderTest(null).activeOracleProvider(null).build();
+        TestContainer<Integer, String> container = new TestContainer<Integer, String>()
     }
 }
