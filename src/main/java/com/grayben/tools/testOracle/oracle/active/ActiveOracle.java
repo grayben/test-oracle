@@ -1,7 +1,5 @@
 package com.grayben.tools.testOracle.oracle.active;
 
-import com.grayben.tools.testOracle.oracle.passive.PassiveOracle;
-
 import java.util.function.Function;
 
 /**
@@ -21,10 +19,4 @@ public interface ActiveOracle<I, O> extends Function<I, O> {
      */
     @Override
     O apply(I input);
-
-    /**
-     * Convert this active oracle to a passive oracle.
-     * @return the adapted oracle
-     */
-    PassiveOracle<I, O> adaptToPassiveOracle();
 }

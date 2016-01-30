@@ -1,6 +1,7 @@
 package com.grayben.tools.testOracle.testContainer;
 
 import com.grayben.tools.testOracle.SystemUnderTest;
+import com.grayben.tools.testOracle.oracle.Oracles;
 import com.grayben.tools.testOracle.oracle.active.ActiveOracle;
 import com.grayben.tools.testOracle.oracle.passive.PassiveOracle;
 
@@ -20,7 +21,7 @@ public class TestContainer<I, O>{
 
     public TestContainer(SystemUnderTest<I, O> systemUnderTest, ActiveOracle<I, O> activeOracle) {
         this.systemUnderTest = systemUnderTest;
-        this.passiveOracle = activeOracle.adaptToPassiveOracle();
+        this.passiveOracle = Oracles.passiveOracle(activeOracle);
     }
 
     final public boolean validate(I input) {
