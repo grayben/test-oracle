@@ -3,7 +3,10 @@ package com.grayben.tools.testOracle.testContainer.adapter;
 import java.util.function.Function;
 
 /**
- * Created by beng on 28/01/2016.
+ * A simple facade for java.util.function.Function which can add to code readability.
+ *
+ * @param <X> input type
+ * @param <Y> output type
  */
 public interface Adapter<X, Y> extends Function<X, Y> {
 }
