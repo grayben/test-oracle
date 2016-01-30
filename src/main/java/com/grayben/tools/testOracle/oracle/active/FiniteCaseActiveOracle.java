@@ -9,7 +9,7 @@ import java.util.Map;
  * @param <I> the input type
  * @param <O> the output type
  */
-final public class DiscreteCaseActiveOracle<I, O> implements ActiveOracle<I, O> {
+final public class FiniteCaseActiveOracle<I, O> implements ActiveOracle<I, O> {
 
     /**
      * Maps a finite set of input cases to their expected outputs
@@ -17,10 +17,10 @@ final public class DiscreteCaseActiveOracle<I, O> implements ActiveOracle<I, O> 
     private final Map<I, O> casePairs;
 
     /**
-     * Constructs a {@link DiscreteCaseActiveOracle} relying in the specified map.
+     * Constructs a {@link FiniteCaseActiveOracle} relying in the specified map.
      * @param casePairs
      */
-    public DiscreteCaseActiveOracle(Map<I, O> casePairs) {
+    public FiniteCaseActiveOracle(Map<I, O> casePairs) {
         this.casePairs = casePairs;
     }
 

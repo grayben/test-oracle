@@ -2,7 +2,7 @@ package com.grayben.tools.testOracle.testContainer;
 
 import com.grayben.tools.testOracle.SystemUnderTest;
 import com.grayben.tools.testOracle.oracle.active.ActiveOracle;
-import com.grayben.tools.testOracle.oracle.active.DiscreteCaseActiveOracle;
+import com.grayben.tools.testOracle.oracle.active.FiniteCaseActiveOracle;
 import com.grayben.tools.testOracle.adapter.EnumAdapter;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -50,7 +50,7 @@ public class DiscreteCaseTestContainer<E extends Enum<E>, I, O>{
         for (E option : EnumSet.allOf(enumClass)) {
             casePairs.put(option, pairGenerator.apply(option).getValue());
         }
-        return new DiscreteCaseActiveOracle<>(casePairs);
+        return new FiniteCaseActiveOracle<>(casePairs);
     }
 
     final public boolean validate(E discreteCase){
