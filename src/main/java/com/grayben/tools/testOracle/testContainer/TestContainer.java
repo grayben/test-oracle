@@ -24,7 +24,7 @@ public class TestContainer<I, O>{
         this.passiveOracle = Oracles.passiveOracle(activeOracle);
     }
 
-    final public boolean validate(I input) {
+    final public boolean verify(I input) {
         O actualOutput = systemUnderTest.apply(input);
         return passiveOracle.test(input, actualOutput);
     }

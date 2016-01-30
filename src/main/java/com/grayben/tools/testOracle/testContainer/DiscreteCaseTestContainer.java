@@ -53,7 +53,7 @@ public class DiscreteCaseTestContainer<E extends Enum<E>, I, O>{
         return new FiniteCaseActiveOracle<>(casePairs);
     }
 
-    final public boolean validate(E discreteCase){
-        return delegateTestContainer.validate(discreteCase);
+    final public boolean verify(E discreteCase){
+        return delegateTestContainer.verify(discreteCase);
     }
 }

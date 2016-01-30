@@ -66,7 +66,7 @@ public class ParametricTestOracle {}
     public void test_validateOutputEqualsExpected_DoesNotThrowException_WhenFunctionMapsRelation
             () throws Exception {
         Integer anArbitraryParameter = 56;
-        oracleSut.validate(functionMatchingOracleTypeAndRelation, anArbitraryParameter);
+        oracleSut.verify(functionMatchingOracleTypeAndRelation, anArbitraryParameter);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class ParametricTestOracle {}
             () throws Exception {
         thrown.expect(AssertionError.class);
         Integer anArbitraryParameter = 56;
-        oracleSut.validate(functionMatchingOracleTypeButNotRelation, anArbitraryParameter);
+        oracleSut.verify(functionMatchingOracleTypeButNotRelation, anArbitraryParameter);
     }
 }
 */

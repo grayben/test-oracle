@@ -15,8 +15,8 @@ extends TestContainer<P, Pair<SUT, I>, O> {
     }
 
     @Override
-    public void validate(Function<Pair<SUT, I>, O> operation, P parameter) {
-        this.parametricOracle.validate(operation, parameter);
+    public void verify(Function<Pair<SUT, I>, O> operation, P parameter) {
+        this.parametricOracle.verify(operation, parameter);
     }
 }
 */

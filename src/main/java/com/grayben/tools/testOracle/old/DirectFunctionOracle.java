@@ -16,8 +16,8 @@ extends TestContainer<I, O> {
         });
     }
 
-    public void validate(Function<I, O> operation, I parameter) {
-        this.parametricOracle.validate(operation, parameter);
+    public void verify(Function<I, O> operation, I parameter) {
+        this.parametricOracle.verify(operation, parameter);
     }
 }
 */

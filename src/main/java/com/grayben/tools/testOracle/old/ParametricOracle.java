@@ -14,7 +14,7 @@ abstract class ParametricOracle<P, I, O> {}
     }
 
     //@Override
-    public void validate(Function<I, O> operation, P parameter){
+    public void verify(Function<I, O> operation, P parameter){
         Pair<I, O> oraclePair = getInputAndExpectedOutput(parameter);
         I input = oraclePair.getLeft();
         O expectedOutput = oraclePair.getRight();

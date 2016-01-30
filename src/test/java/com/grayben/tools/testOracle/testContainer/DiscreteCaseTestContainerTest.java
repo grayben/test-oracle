@@ -3,12 +3,9 @@ package com.grayben.tools.testOracle.testContainer;
 import com.grayben.tools.testOracle.SystemUnderTest;
 import junit.framework.TestCase;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.function.Function;
 
 /**
  * Created by beng on 29/01/2016.
@@ -51,8 +48,8 @@ public class DiscreteCaseTestContainerTest {
                 pairGenerator
         );
 
-        TestCase.assertFalse(oracle.validate(SystemUnderTestOption.SIMPLE));
-        TestCase.assertFalse(oracle.validate(SystemUnderTestOption.COMPLICATED));
+        TestCase.assertFalse(oracle.verify(SystemUnderTestOption.SIMPLE));
+        TestCase.assertFalse(oracle.verify(SystemUnderTestOption.COMPLICATED));
 
     }
 
@@ -79,8 +76,8 @@ public class DiscreteCaseTestContainerTest {
                 pairGenerator
         );
 
-        TestCase.assertTrue(oracle.validate(SystemUnderTestOption.SIMPLE));
-        TestCase.assertTrue(oracle.validate(SystemUnderTestOption.COMPLICATED));
+        TestCase.assertTrue(oracle.verify(SystemUnderTestOption.SIMPLE));
+        TestCase.assertTrue(oracle.verify(SystemUnderTestOption.COMPLICATED));
 
     }
 }
