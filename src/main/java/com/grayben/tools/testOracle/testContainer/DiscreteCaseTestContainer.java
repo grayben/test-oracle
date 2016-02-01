@@ -25,7 +25,12 @@ public class DiscreteCaseTestContainer<E extends Enum<E>, I, O>{
         EnumAdapter<E, I> enumAdapter = enumAdapter(enumClass, pairGenerator);
         ActiveOracle<E, O> activeOracle = activeOracle(enumClass, pairGenerator);
         SystemUnderTest<E, O> systemUnderTest = systemUnderTest(enumAdapter, systemUnderTestGenerator);
-        delegateTestContainer = new TestContainer<>(systemUnderTest, activeOracle);
+        delegateTestContainer
+                = new TestContainer.Builder<E, O>()
+                .begin()
+                .systemUnderTest(systemUnderTest)
+                .oracle(activeOracle)
+                .build();
     }
 
     private EnumAdapter<E, I> enumAdapter(Class<E> enumClass, Function<E, Pair<I, O>> pairGenerator) {
