@@ -28,39 +28,6 @@ public class TestContainer<I, O>{
      */
     private final Function<I, PassiveOracle<I, O>> passiveOracleProvider;
 
-    /**
-     * Constructs a {@link TestContainer} which invokes the specified {@link SystemUnderTest} and verifies
-     * its output using the specified {@link PassiveOracle}.
-     * @param systemUnderTest the system under test
-     * @param passiveOracle the passive oracle
-     */
-    private TestContainer(SystemUnderTest<I, O> systemUnderTest, PassiveOracle<I, O> passiveOracle) {
-        // ignore the input: a single SUT was given
-        this.systemUnderTestProvider = input -> systemUnderTest;
-
-        // ignore the input: a single oracle was given
-        this.passiveOracleProvider = input -> passiveOracle;
-    }
-
-    /**
-     * Constructs a {@link TestContainer} which invokes the specified {@link SystemUnderTest} and verifies
-     * its output using the specified {@link ActiveOracle}.
-     * @param systemUnderTest the system under test
-     * @param activeOracle the active oracle
-     */
-    private TestContainer(SystemUnderTest<I, O> systemUnderTest, ActiveOracle<I, O> activeOracle) {
-        // ignore the input: a single SUT was given
-        this.systemUnderTestProvider = input -> systemUnderTest;
-
-
-        /**
-         * Ignore the input: a single oracle was given.
-         * <p>
-         * Convert the {@link activeOracle} to its equivalent {@link passiveOracle} and then assign it
-         */
-        this.passiveOracleProvider = input -> Oracles.passiveOracle(activeOracle);
-    }
-
     private TestContainer(Builder<I, O> builder){
         this.passiveOracleProvider = builder.passiveOracleProvider;
         this.systemUnderTestProvider = builder.systemUnderTestProvider;
