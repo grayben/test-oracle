@@ -1,17 +1,11 @@
 package com.grayben.tools.testOracle.testContainer;
 
-import com.grayben.tools.testOracle.SystemUnderTest;
-import junit.framework.TestCase;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-
 /**
  * Created by beng on 29/01/2016.
  */
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
 public class DiscreteCaseTestContainerTest {
+    /*
 
     public enum SystemUnderTestOption {
         SIMPLE(String::valueOf),
@@ -80,4 +74,6 @@ public class DiscreteCaseTestContainerTest {
         TestCase.assertTrue(oracle.verify(SystemUnderTestOption.COMPLICATED));
 
     }
+
+    */
 }
