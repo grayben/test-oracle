@@ -22,7 +22,7 @@ public class Oracles {
      * @param <O> the output type
      * @return a {@link PassiveOracle} equivalent to the specified {@link ActiveOracle}
      */
-    public static <I, O> PassiveOracle<I, O> passiveOracle(ActiveOracle<I, O> activeOracle){
+    public static <I, O> PassiveOracle<I, O> passiveOracle(ActiveOracle<? super I, ? extends O> activeOracle){
         return (input, actualOutput) -> actualOutput.equals(activeOracle.apply(input));
     }
 }

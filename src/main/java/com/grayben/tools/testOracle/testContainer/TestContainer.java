@@ -21,12 +21,12 @@ public class TestContainer<I, O>{
     /**
      * The system under test
      */
-    private final Function<I, SystemUnderTest<I, O>> systemUnderTestProvider;
+    private final Function<? super I, ? extends SystemUnderTest<? super I, ? extends O>> systemUnderTestProvider;
 
     /**
      * The test oracle represented as a {@link PassiveOracle}
      */
-    private final Function<I, PassiveOracle<I, O>> passiveOracleProvider;
+    private final Function<? super I, ? extends PassiveOracle<? super I, ? super O>> passiveOracleProvider;
 
     private TestContainer(Builder<I, O> builder){
         this.passiveOracleProvider = builder.passiveOracleProvider;
@@ -39,36 +39,36 @@ public class TestContainer<I, O>{
      * @return true if and only if the system under test is verified on the specified input
      */
     final public boolean verify(I input) {
-        SystemUnderTest<I, O> selectedSystemUnderTest = systemUnderTestProvider.apply(input);
+        SystemUnderTest<? super I, ? extends O> selectedSystemUnderTest = systemUnderTestProvider.apply(input);
         O actualOutput = selectedSystemUnderTest.apply(input);
-        PassiveOracle<I, O> selectedPassiveOracle = passiveOracleProvider.apply(input);
+        PassiveOracle<? super I, ? super O> selectedPassiveOracle = passiveOracleProvider.apply(input);
         return selectedPassiveOracle.test(input, actualOutput);
     }
 
     public static class Builder<I, O> {
 
-        private Function<I, SystemUnderTest<I, O>> systemUnderTestProvider;
-        private Function<I, PassiveOracle<I, O>> passiveOracleProvider;
+        private Function<? super I, ? extends SystemUnderTest<? super I, ? extends O>> systemUnderTestProvider;
+        private Function<? super I, ? extends PassiveOracle<? super I, ? super O>> passiveOracleProvider;
 
         public Builder(){}
 
         public SystemUnderTestSettable<I, O> begin(){
-            return new TheRealBuilder<>(this); 
+            return new TheRealBuilder<>(this);
         }
 
         public interface SystemUnderTestSettable<I, O> {
-            OracleSettable<I, O> systemUnderTest(SystemUnderTest<I, O> systemUnderTest);
-            OracleSettable<I, O> systemUnderTestProvider(Function<I, SystemUnderTest<I, O>> systemUnderTestProvider);
+            OracleSettable<I, O> systemUnderTest(SystemUnderTest<? super I, ? extends O> systemUnderTest);
+            OracleSettable<I, O> systemUnderTestProvider(Function<? super I, ? extends SystemUnderTest<? super I, ? extends O>> systemUnderTestProvider);
         }
 
         public interface OracleSettable<I, O> {
-            TestContainerBuildable<I, O> oracle(PassiveOracle<I, O> passiveOracle);
+            TestContainerBuildable<I, O> oracle(PassiveOracle<? super I, ? super O> passiveOracle);
 
-            TestContainerBuildable<I, O> passiveOracleProvider(Function<I, PassiveOracle<I, O>> passiveOracleProvider);
+            TestContainerBuildable<I, O> passiveOracleProvider(Function<? super I, ? extends PassiveOracle<? super I, ? super O>> passiveOracleProvider);
 
-            TestContainerBuildable<I, O> oracle(ActiveOracle<I, O> activeOracle);
+            TestContainerBuildable<I, O> oracle(ActiveOracle<? super I, ? extends O> activeOracle);
 
-            TestContainerBuildable<I, O> activeOracleProvider(Function<I, ? extends ActiveOracle<I, O>> activeOracleProvider);
+            TestContainerBuildable<I, O> activeOracleProvider(Function<? super I, ? extends ActiveOracle<? super I, ? extends O>> activeOracleProvider);
         }
 
         public interface TestContainerBuildable<I, O> {
@@ -88,37 +88,37 @@ public class TestContainer<I, O>{
             }
 
             @Override
-            public OracleSettable<I, O> systemUnderTest(SystemUnderTest<I, O> systemUnderTest) {
+            public OracleSettable<I, O> systemUnderTest(SystemUnderTest<? super I, ? extends O> systemUnderTest) {
                 this.builder.systemUnderTestProvider = input -> systemUnderTest;
                 return this;
             }
 
             @Override
-            public OracleSettable<I, O> systemUnderTestProvider(Function<I, SystemUnderTest<I, O>> systemUnderTestProvider) {
+            public OracleSettable<I, O> systemUnderTestProvider(Function<? super I, ? extends SystemUnderTest<? super I, ? extends O>> systemUnderTestProvider) {
                 this.builder.systemUnderTestProvider = systemUnderTestProvider;
                 return this;
             }
 
             @Override
-            public TestContainerBuildable<I, O> oracle(PassiveOracle<I, O> passiveOracle) {
+            public TestContainerBuildable<I, O> oracle(PassiveOracle<? super I, ? super O> passiveOracle) {
                 this.builder.passiveOracleProvider = input -> passiveOracle;
                 return this;
             }
 
             @Override
-            public TestContainerBuildable<I, O> passiveOracleProvider(Function<I, PassiveOracle<I, O>> passiveOracleProvider) {
+            public TestContainerBuildable<I, O> passiveOracleProvider(Function<? super I, ? extends PassiveOracle<? super I, ? super O>> passiveOracleProvider) {
                 this.builder.passiveOracleProvider = passiveOracleProvider;
                 return this;
             }
 
             @Override
-            public TestContainerBuildable<I, O> oracle(ActiveOracle<I, O> activeOracle) {
+            public TestContainerBuildable<I, O> oracle(ActiveOracle<? super I, ? extends O> activeOracle) {
                 this.builder.passiveOracleProvider = input -> Oracles.passiveOracle(activeOracle);
                 return this;
             }
 
             @Override
-            public TestContainerBuildable<I, O> activeOracleProvider(Function<I, ? extends ActiveOracle<I, O>> activeOracleProvider) {
+            public TestContainerBuildable<I, O> activeOracleProvider(Function<? super I, ? extends ActiveOracle<? super I, ? extends O>> activeOracleProvider) {
                 this.builder.passiveOracleProvider = input -> Oracles.passiveOracle(activeOracleProvider.apply(input));
                 return this;
             }
@@ -128,7 +128,5 @@ public class TestContainer<I, O>{
                 return new TestContainer<>(this.builder);
             }
         }
-
-
     }
 }
