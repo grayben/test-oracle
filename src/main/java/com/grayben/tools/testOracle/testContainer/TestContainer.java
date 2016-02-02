@@ -1,5 +1,6 @@
 package com.grayben.tools.testOracle.testContainer;
 
+import com.grayben.tools.math.function.ConstantFunction;
 import com.grayben.tools.math.function.parametric.ParametricEquation;
 import com.grayben.tools.testOracle.SystemUnderTest;
 import com.grayben.tools.testOracle.oracle.Oracles;
@@ -106,7 +107,7 @@ public class TestContainer<I, O>{
 
             @Override
             public OracleSettable<I, O> systemUnderTest(SystemUnderTest<? super I, ? extends O> systemUnderTest) {
-                this.builder.systemUnderTestProvider = input -> systemUnderTest;
+                this.builder.systemUnderTestProvider = new ConstantFunction<>(systemUnderTest);
                 return this;
             }
 
@@ -118,7 +119,7 @@ public class TestContainer<I, O>{
 
             @Override
             public TestContainerBuildable<I, O> oracle(PassiveOracle<? super I, ? super O> passiveOracle) {
-                this.builder.passiveOracleProvider = input -> passiveOracle;
+                this.builder.passiveOracleProvider = new ConstantFunction<>(passiveOracle);
                 return this;
             }
 
@@ -130,7 +131,7 @@ public class TestContainer<I, O>{
 
             @Override
             public TestContainerBuildable<I, O> oracle(ActiveOracle<? super I, ? extends O> activeOracle) {
-                this.builder.passiveOracleProvider = input -> Oracles.passiveOracle(activeOracle);
+                this.builder.passiveOracleProvider = new ConstantFunction<>(Oracles.passiveOracle(activeOracle));
                 return this;
             }
 
