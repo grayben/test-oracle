@@ -1,6 +1,6 @@
 package com.grayben.tools.testOracle.testContainer;
 
-import com.grayben.tools.math.parametricEquation.ParametricEquation;
+import com.grayben.tools.math.function.parametric.ParametricEquation;
 import com.grayben.tools.testOracle.SystemUnderTest;
 import com.grayben.tools.testOracle.oracle.Oracles;
 import com.grayben.tools.testOracle.oracle.active.ActiveOracle;
