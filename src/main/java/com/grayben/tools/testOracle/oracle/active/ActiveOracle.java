@@ -1,5 +1,7 @@
 package com.grayben.tools.testOracle.oracle.active;
 
+import com.grayben.tools.math.function.FunctionBuilder;
+
 import java.util.function.Function;
 
 /**
@@ -10,6 +12,13 @@ import java.util.function.Function;
  * @param <O> the output type
  */
 public interface ActiveOracle<I, O> extends Function<I, O> {
+
+    class Builder<I, O> extends FunctionBuilder<I, O> {
+
+        public Builder(ActiveOracle<I, O> function) {
+            super(function);
+        }
+    }
 
     /**
      * Determine the expected output on a given input.
