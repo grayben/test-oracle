@@ -19,17 +19,17 @@ import java.util.function.Function;
  * @param <I> the input type
  * @param <O> the output type
  */
-public class TestContainer<I, O>{
+public class TestContainer<I, O> {
 
     /**
      * The system under test
      */
-    private final Function<? super I, ? extends SystemUnderTest<? super I, ? extends O>> systemUnderTestProvider;
+    private final Function<I, SystemUnderTest<I, O>> systemUnderTestProvider;
 
     /**
      * The test oracle represented as a {@link PassiveOracle}
      */
-    private final Function<? super I, ? extends PassiveOracle<? super I, ? super O>> passiveOracleProvider;
+    private final Function<I, PassiveOracle<I, O>> passiveOracleProvider;
 
     protected TestContainer(Builder.TheRealBuilder<I, O> builder){
         this.passiveOracleProvider = builder.passiveOracleProviderBuilder.build();
@@ -42,9 +42,9 @@ public class TestContainer<I, O>{
      * @return true if and only if the system under test is verified on the specified input
      */
     final public boolean verify(I input) {
-        SystemUnderTest<? super I, ? extends O> selectedSystemUnderTest = systemUnderTestProvider.apply(input);
+        SystemUnderTest<I, O> selectedSystemUnderTest = systemUnderTestProvider.apply(input);
         O actualOutput = selectedSystemUnderTest.apply(input);
-        PassiveOracle<? super I, ? super O> selectedPassiveOracle = passiveOracleProvider.apply(input);
+        PassiveOracle<I, O> selectedPassiveOracle = passiveOracleProvider.apply(input);
         return selectedPassiveOracle.test(input, actualOutput);
     }
 
@@ -77,14 +77,14 @@ public class TestContainer<I, O>{
                             I,
                             SystemUnderTest<I, O>,
                             PassiveOracle<I, O>
-                            > parametricEquation);
+                    > parametricEquation);
 
             TestContainerBuildable<I, O> systemUnderTestAndActiveOracleProvider(
                     ParametricEquation<
                             I,
                             SystemUnderTest<I, O>,
                             ActiveOracle<I, O>
-                            > parametricEquation);
+                    > parametricEquation);
         }
 
         public interface TestContainerBuildable<I, O> {
