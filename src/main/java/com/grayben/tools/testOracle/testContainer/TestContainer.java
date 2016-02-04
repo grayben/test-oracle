@@ -32,8 +32,8 @@ public class TestContainer<I, O>{
     private final Function<? super I, ? extends PassiveOracle<? super I, ? super O>> passiveOracleProvider;
 
     protected TestContainer(Builder.TheRealBuilder<I, O> builder){
-        this.passiveOracleProvider = builder.passiveOracleProvider;
-        this.systemUnderTestProvider = builder.systemUnderTestProvider;
+        this.passiveOracleProvider = builder.passiveOracleProviderBuilder.build();
+        this.systemUnderTestProvider = builder.systemUnderTestProviderBuilder.build();
     }
 
     /**
@@ -77,14 +77,14 @@ public class TestContainer<I, O>{
                             I,
                             SystemUnderTest<I, O>,
                             PassiveOracle<I, O>
-                    > parametricEquation);
+                            > parametricEquation);
 
             TestContainerBuildable<I, O> systemUnderTestAndActiveOracleProvider(
                     ParametricEquation<
                             I,
                             SystemUnderTest<I, O>,
                             ActiveOracle<I, O>
-                    > parametricEquation);
+                            > parametricEquation);
         }
 
         public interface TestContainerBuildable<I, O> {
@@ -98,64 +98,64 @@ public class TestContainer<I, O>{
                 OracleSettable<I, O>,
                 TestContainerBuildable<I, O> {
 
-            private Function<I, SystemUnderTest<I, O>> systemUnderTestProvider;
-            private Function<I, PassiveOracle<I, O>> passiveOracleProvider;
+            private FunctionBuilder<I, SystemUnderTest<I, O>> systemUnderTestProviderBuilder;
+            private FunctionBuilder<I, PassiveOracle<I, O>> passiveOracleProviderBuilder;
 
             public TheRealBuilder() {
             }
 
             @Override
             public OracleSettable<I, O> systemUnderTest(SystemUnderTest<I, O> systemUnderTest) {
-                this.systemUnderTestProvider = new ConstantFunction<>(systemUnderTest);
+                this.systemUnderTestProviderBuilder = new FunctionBuilder<>(new ConstantFunction<>(systemUnderTest));
                 return this;
             }
 
             @Override
             public OracleSettable<I, O> systemUnderTestProvider(Function<I, SystemUnderTest<I, O>> systemUnderTestProvider) {
-                this.systemUnderTestProvider = systemUnderTestProvider;
+                this.systemUnderTestProviderBuilder = new FunctionBuilder<>(systemUnderTestProvider);
                 return this;
             }
 
             @Override
             public TestContainerBuildable<I, O> oracle(PassiveOracle<I, O> passiveOracle) {
-                this.passiveOracleProvider = new ConstantFunction<>(passiveOracle);
+                this.passiveOracleProviderBuilder = new FunctionBuilder<>(new ConstantFunction<>(passiveOracle));
                 return this;
             }
 
             @Override
             public TestContainerBuildable<I, O> passiveOracleProvider(Function<I, PassiveOracle<I, O>> passiveOracleProvider) {
-                this.passiveOracleProvider = passiveOracleProvider;
+                this.passiveOracleProviderBuilder = new FunctionBuilder<>(passiveOracleProvider);
                 return this;
             }
 
             @Override
             public TestContainerBuildable<I, O> oracle(ActiveOracle<I, O> activeOracle) {
-                this.passiveOracleProvider = new ConstantFunction<>(Oracles.passiveOracle(activeOracle));
+                this.passiveOracleProviderBuilder = new FunctionBuilder<>(new ConstantFunction<>(Oracles.passiveOracle(activeOracle)));
                 return this;
             }
 
             @Override
             public TestContainerBuildable<I, O> activeOracleProvider(Function<I, ActiveOracle<I, O>> activeOracleProvider) {
-                this.passiveOracleProvider = input -> Oracles.passiveOracle(activeOracleProvider.apply(input));
+                this.passiveOracleProviderBuilder = new FunctionBuilder<>(input -> Oracles.passiveOracle(activeOracleProvider.apply(input)));
                 return this;
             }
 
             @Override
             public TestContainer<I, O> build() {
-                return new TestContainer<I, O>(this);
+                return new TestContainer<>(this);
             }
 
             @Override
             public TestContainerBuildable<I, O> systemUnderTestAndPassiveOracleProvider(ParametricEquation<I, SystemUnderTest<I, O>, PassiveOracle<I, O>> parametricEquation) {
-                this.systemUnderTestProvider = input -> parametricEquation.apply(input).getLeft();
-                this.passiveOracleProvider = input -> parametricEquation.apply(input).getRight();
+                this.systemUnderTestProviderBuilder = new FunctionBuilder<>(input -> parametricEquation.apply(input).getLeft());
+                this.passiveOracleProviderBuilder = new FunctionBuilder<>(input -> parametricEquation.apply(input).getRight());
                 return this;
             }
 
             @Override
             public TestContainerBuildable<I, O> systemUnderTestAndActiveOracleProvider(ParametricEquation<I, SystemUnderTest<I, O>, ActiveOracle<I, O>> parametricEquation) {
-                this.systemUnderTestProvider = input -> parametricEquation.apply(input).getLeft();
-                this.passiveOracleProvider = input -> Oracles.passiveOracle(parametricEquation.apply(input).getRight());
+                this.systemUnderTestProviderBuilder = new FunctionBuilder<>(input -> parametricEquation.apply(input).getLeft());
+                this.passiveOracleProviderBuilder = new FunctionBuilder<>(input -> Oracles.passiveOracle(parametricEquation.apply(input).getRight()));
                 return this;
             }
         }
