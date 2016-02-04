@@ -20,9 +20,9 @@
     </repositories>
     <dependencies>
         <dependency>
-            <groupId>com.github.grayben</groupId>
+            <groupId>com.grayben.tools</groupId>
             <artifactId>math</artifactId>
-            <version>0.7.0</version>
+            <version>0.7.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
