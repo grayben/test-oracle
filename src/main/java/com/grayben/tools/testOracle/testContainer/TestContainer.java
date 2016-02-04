@@ -1,6 +1,7 @@
 package com.grayben.tools.testOracle.testContainer;
 
 import com.grayben.tools.math.function.ConstantFunction;
+import com.grayben.tools.math.function.FunctionBuilder;
 import com.grayben.tools.math.function.parametric.ParametricEquation;
 import com.grayben.tools.testOracle.SystemUnderTest;
 import com.grayben.tools.testOracle.oracle.Oracles;
@@ -30,7 +31,7 @@ public class TestContainer<I, O>{
      */
     private final Function<? super I, ? extends PassiveOracle<? super I, ? super O>> passiveOracleProvider;
 
-    protected TestContainer(Builder<I, O>.TheRealBuilder builder){
+    protected TestContainer(Builder.TheRealBuilder<I, O> builder){
         this.passiveOracleProvider = builder.passiveOracleProvider;
         this.systemUnderTestProvider = builder.systemUnderTestProvider;
     }
@@ -52,7 +53,7 @@ public class TestContainer<I, O>{
         public Builder(){}
 
         public SystemUnderTestSettable<I, O> begin(){
-            return new TheRealBuilder();
+            return new TheRealBuilder<>();
         }
 
         public interface SystemUnderTestSettable<I, O> extends SystemUnderTestAndOracleSettable<I, O> {
@@ -91,7 +92,7 @@ public class TestContainer<I, O>{
             TestContainer<I, O> build();
         }
 
-        protected class TheRealBuilder
+        protected static class TheRealBuilder<I, O>
                 implements
                 SystemUnderTestSettable<I, O>,
                 OracleSettable<I, O>,
