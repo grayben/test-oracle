@@ -1,7 +1,7 @@
 package com.grayben.tools.testOracle.testContainer;
 
 import com.grayben.tools.math.function.ConstantFunction;
-import com.grayben.tools.math.function.FunctionBuilder;
+import com.grayben.tools.math.function.builder.FunctionBuilder;
 import com.grayben.tools.math.function.parametric.ParametricEquation;
 import com.grayben.tools.testOracle.SystemUnderTest;
 import com.grayben.tools.testOracle.oracle.Oracles;
