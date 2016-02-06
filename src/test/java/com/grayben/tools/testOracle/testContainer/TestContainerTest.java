@@ -1,10 +1,9 @@
 package com.grayben.tools.testOracle.testContainer;
 
 /**
- * Created by beng on 29/01/2016.
+ * Created by beng on 6/02/2016.
  */
-//@RunWith(MockitoJUnitRunner.class)
-public class DiscreteCaseTestContainerTest {
+public class TestContainerTest {
     /*
 
     public enum SystemUnderTestOption {
@@ -76,4 +75,5 @@ public class DiscreteCaseTestContainerTest {
     }
 
     */
+
 }
