@@ -31,7 +31,7 @@ public class TestContainer<I, O> {
      */
     private final Function<I, PassiveOracle<I, O>> passiveOracleProvider;
 
-    protected TestContainer(Builder builder){
+    protected TestContainer(Builder<I, O> builder){
         this.passiveOracleProvider = builder.theRealBuilder.passiveOracleProviderBuilder.build();
         this.systemUnderTestProvider = builder.theRealBuilder.systemUnderTestProviderBuilder.build();
     }
