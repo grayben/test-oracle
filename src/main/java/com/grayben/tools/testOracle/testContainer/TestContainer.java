@@ -98,35 +98,6 @@ public class TestContainer<I, O> {
                 OracleSettable<I, O>,
                 TestContainerBuildable<I, O> {
 
-            private static class SystemUnderTestBuilderFunctionBuilder<I, O> {
-
-                Function<I, SystemUnderTest.Builder<I, O>> systemUnderTestBuilderFunction;
-
-                public <A> SystemUnderTestBuilderFunctionBuilder<A, O> prepend(Function<A, I> inputAdapter) {
-                    systemUnderTestBuilderFunction = new Function<A, SystemUnderTest.Builder<A, O>>() {
-                        @Override
-                        public SystemUnderTest.Builder<A, O> apply(A a) {
-                            I adaptedFunctionInput = inputAdapter.apply(a);
-                            SystemUnderTest.Builder<A, O> newBuilder = new SystemUnderTest.Builder<>()
-                        }
-                    }systemUnderTestBuilder.prepend(inputAdapter);
-                }
-
-                @Override
-                public <Z> FunctionBuilder<I, Z> append(Function<? super SystemUnderTest.Builder<I, O>, ? extends Z> outputAdapter) {
-                    return super.append(outputAdapter);
-                }
-
-                /**
-                 * Constructs a function builder starting with the specified function.
-                 *
-                 * @param function the function upon which to build
-                 */
-                public SystemUnderTestBuilderFunctionBuilder(Function<I, SystemUnderTest.Builder<I, O>> function) {
-                    super(function);
-                }
-            }
-
             private FunctionBuilder<I, SystemUnderTest<I, O>> systemUnderTestProviderBuilder;
             private FunctionBuilder<I, PassiveOracle<I, O>> passiveOracleProviderBuilder;
 
