@@ -1,10 +1,15 @@
 package com.grayben.tools.testOracle.testContainer;
 
+import com.grayben.tools.testOracle.SystemUnderTest;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 /**
  * Created by beng on 6/02/2016.
  */
 public class TestContainerTest {
-    /*
 
     public enum SystemUnderTestOption {
         SIMPLE(String::valueOf),
@@ -35,14 +40,10 @@ public class TestContainerTest {
                     throw new IllegalArgumentException("The option was not recognised");
                 };
 
-        DiscreteCaseTestContainer<SystemUnderTestOption, Integer, String> oracle = new DiscreteCaseTestContainer<>(
-                SystemUnderTestOption.class,
-                SystemUnderTestOption::getSystemUnderTest,
-                pairGenerator
-        );
+        TestContainer<Integer, String> oracle = new TestContainer<>(null);
 
-        TestCase.assertFalse(oracle.verify(SystemUnderTestOption.SIMPLE));
-        TestCase.assertFalse(oracle.verify(SystemUnderTestOption.COMPLICATED));
+        assertFalse(true);
+        assertFalse(true);
 
     }
 
@@ -63,17 +64,11 @@ public class TestContainerTest {
             throw new IllegalArgumentException("The option was not recognised");
         };
 
-        DiscreteCaseTestContainer<SystemUnderTestOption, Integer, String> oracle = new DiscreteCaseTestContainer<>(
-                SystemUnderTestOption.class,
-                SystemUnderTestOption::getSystemUnderTest,
-                pairGenerator
-        );
+        TestContainer<Integer, String> oracle = new TestContainer<>(null);
 
-        TestCase.assertTrue(oracle.verify(SystemUnderTestOption.SIMPLE));
-        TestCase.assertTrue(oracle.verify(SystemUnderTestOption.COMPLICATED));
+        assertTrue(false);
+        assertTrue(false);
 
     }
-
-    */
 
 }
