@@ -1,6 +1,6 @@
 package com.grayben.tools.testOracle;
 
-import com.grayben.tools.math.function.FunctionBuilder;
+import com.grayben.tools.math.function.builder.FunctionBuilder;
 
 import java.util.function.Function;
 
