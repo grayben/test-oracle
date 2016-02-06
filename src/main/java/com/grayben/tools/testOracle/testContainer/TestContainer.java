@@ -31,8 +31,8 @@ public class TestContainer<I, O> {
     private final Function<I, PassiveOracle<I, O>> passiveOracleProvider;
 
     protected TestContainer(Builder<I, O> builder){
-        this.passiveOracleProvider = builder.theRealBuilder.passiveOracleProviderBuilder.build();
-        this.systemUnderTestProvider = builder.theRealBuilder.systemUnderTestProviderBuilder.build();
+        this.passiveOracleProvider = builder.apprentice.passiveOracleProviderBuilder.build();
+        this.systemUnderTestProvider = builder.apprentice.systemUnderTestProviderBuilder.build();
     }
 
     /**
@@ -55,14 +55,14 @@ public class TestContainer<I, O> {
     public static class Builder<I, O>
             implements TestContainerBuildable<I, O> {
 
-        private final TheRealBuilder theRealBuilder;
+        private final Apprentice apprentice;
 
         public Builder(){
-            this.theRealBuilder = this.new TheRealBuilder();
+            this.apprentice = this.new Apprentice();
         }
 
         public SystemUnderTestSettable<I, O> begin(){
-            return this.theRealBuilder;
+            return this.apprentice;
         }
 
         public interface SystemUnderTestSettable<I, O>  {
@@ -79,7 +79,7 @@ public class TestContainer<I, O> {
             return new TestContainer<>(this);
         }
 
-        protected class TheRealBuilder
+        protected class Apprentice
                 implements
                 SystemUnderTestSettable<I, O>,
                 OracleSettable<I, O>{
@@ -87,7 +87,7 @@ public class TestContainer<I, O> {
 
             private FunctionBuilder<I, PassiveOracle<I, O>> passiveOracleProviderBuilder;
 
-            public TheRealBuilder() {
+            public Apprentice() {
             }
 
             @Override
