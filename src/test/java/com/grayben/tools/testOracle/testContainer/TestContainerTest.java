@@ -34,7 +34,6 @@ public class TestContainerTest {
         for (int i = 0; i < NUM_RANDOM_TRIALS; i++){
             assertTrue(oracle.verify(RandomUtils.nextInt(0, Integer.MAX_VALUE) * 2 + RandomUtils.nextInt(0, 1)));
         }
-
     }
 
     @Test
@@ -53,7 +52,5 @@ public class TestContainerTest {
         for (int i = 0; i < NUM_RANDOM_TRIALS; i++){
             assertFalse(oracle.verify(RandomUtils.nextInt(0, Integer.MAX_VALUE) * 2 + RandomUtils.nextInt(0, 1)));
         }
-
     }
-
 }
