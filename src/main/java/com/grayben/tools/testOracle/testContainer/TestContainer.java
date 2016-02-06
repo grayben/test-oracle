@@ -74,16 +74,17 @@ public class TestContainer<I, O> {
             TestContainerBuildable<I, O> oracle(ActiveOracle<I, O> activeOracle);
         }
 
-        public interface TestContainerBuildable<I, O> {
-
+        @Override
+        public TestContainer<I, O> build() {
+            return new TestContainer<>(this);
         }
 
         protected class TheRealBuilder
                 implements
                 SystemUnderTestSettable<I, O>,
                 OracleSettable<I, O>{
-
             private FunctionBuilder<I, SystemUnderTest<I, O>> systemUnderTestProviderBuilder;
+
             private FunctionBuilder<I, PassiveOracle<I, O>> passiveOracleProviderBuilder;
 
             public TheRealBuilder() {
@@ -105,11 +106,6 @@ public class TestContainer<I, O> {
             public TestContainerBuildable<I, O> oracle(ActiveOracle<I, O> activeOracle) {
                 this.passiveOracleProviderBuilder = new FunctionBuilder<>(new ConstantFunction<>(Oracles.passiveOracle(activeOracle)));
                 return Builder.this;
-            }
-
-            @Override
-            public TestContainer<I, O> build() {
-                return new TestContainer<>(this);
             }
         }
     }
