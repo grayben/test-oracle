@@ -19,7 +19,7 @@ final public class FiniteCaseActiveOracle<I, O> implements ActiveOracle<I, O> {
 
     /**
      * Constructs a {@link FiniteCaseActiveOracle} relying in the specified map.
-     * @param casePairs
+     * @param casePairs the discrete input/expected output mapping
      */
     public FiniteCaseActiveOracle(Map<I, O> casePairs) {
         this.casePairs = casePairs;
