@@ -35,6 +35,9 @@ final public class FiniteCaseActiveOracle<I, O> implements ActiveOracle<I, O> {
         return casePairs.get(input);
     }
 
+    /**
+     * @return the set of input cases for which this oracle is able to supply an expected output
+     */
     public Set<I> getCoveredInputCases(){
         return this.casePairs.keySet();
     }
