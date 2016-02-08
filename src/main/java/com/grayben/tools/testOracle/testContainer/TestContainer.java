@@ -30,6 +30,10 @@ public class TestContainer<I, O> {
      */
     private final Function<I, PassiveOracle<I, O>> passiveOracleProvider;
 
+    /**
+     * Use the specified builder to construct this test container.
+     * @param builder the completed builder upon which to base construction
+     */
     protected TestContainer(Builder<I, O> builder){
         this.passiveOracleProvider = builder.apprentice.passiveOracleProviderBuilder.build();
         this.systemUnderTestProvider = builder.apprentice.systemUnderTestProviderBuilder.build();
@@ -47,30 +51,92 @@ public class TestContainer<I, O> {
         return selectedPassiveOracle.test(input, actualOutput);
     }
 
+    /**
+     * Defines methods which build a {@link TestContainer}
+     * @param <I> the input type
+     * @param <O> the output type
+     */
     public interface TestContainerBuildable<I, O> {
 
+        /**
+         * @return a completed test container
+         */
         TestContainer<I, O> build();
     }
 
+    /**
+     * A builder implementing the builder design pattern.
+     *
+     * @param <I> the input type
+     * @param <O> the output type
+     */
     public static class Builder<I, O>
             implements TestContainerBuildable<I, O> {
 
+        /**
+         * This builder's apprentice.
+         */
         private final Apprentice apprentice;
 
+        /**
+         * Construct a builder.
+         */
         public Builder(){
             this.apprentice = this.new Apprentice();
         }
 
+        /**
+         * Used to begin planning of the target {@link TestContainer}.
+         * <p>
+         * Used to hack around problems developing this builder with generic types; may be
+         * removed in future releases if/when these problems can be overcome in a more elegant fashion.
+         * @return the next builder context
+         */
         public SystemUnderTestSettable<I, O> begin(){
             return this.apprentice;
         }
 
+        /**
+         * Defines a context in which the system under test of the target {@link TestContainer}
+         * may be specified.
+         *
+         * @param <I> the input type
+         * @param <O> the output type
+         */
         public interface SystemUnderTestSettable<I, O>  {
+
+            /**
+             * Plan the target {@link TestContainer} with the specified {@link SystemUnderTest}.
+             *
+             * @param systemUnderTest the system under test for use by the target {@link TestContainer}.
+             * @return the next builder context
+             */
             OracleSettable<I, O> systemUnderTest(SystemUnderTest<I, O> systemUnderTest);
         }
 
+        /**
+         * Defines a context in which the test oracle of the target {@link TestContainer}
+         * may be specified.
+         *
+         * @param <I> the input type
+         * @param <O> the output type
+         */
         public interface OracleSettable<I, O> {
+
+            /**
+             * Plan the target {@link TestContainer} with the specified {@link PassiveOracle}.
+             *
+             * @param passiveOracle the passive oracle for use by the target {@link TestContainer}
+             * @return the next builder context
+             */
             TestContainerBuildable<I, O> oracle(PassiveOracle<I, O> passiveOracle);
+
+            /**
+             * Plan the target {@link TestContainer} with the specified {@link ActiveOracle}.
+             *
+             * @param activeOracle the active oracle for use by the target {@link TestContainer}
+             * @return the next builder context
+             */
             TestContainerBuildable<I, O> oracle(ActiveOracle<I, O> activeOracle);
         }
 
@@ -79,12 +145,36 @@ public class TestContainer<I, O> {
             return new TestContainer<>(this);
         }
 
+        /**
+         * A sub-builder of sorts. Exists as another class which encapsulates
+         * certain builder methods to hack around some problems with implementing a generic
+         * builder in Java.
+         * <p>
+         * May be removed in a later release if/when a more elegant solution is found.
+         */
         protected class Apprentice
                 implements
                 SystemUnderTestSettable<I, O>,
                 OracleSettable<I, O>{
+
+            /**
+             * The {@link FunctionBuilder} to use to provide the {@link SystemUnderTest} for
+             * use by the target {@link TestContainer}.
+             * <p>
+             * The FunctionBuilder -> SystemUnderTest layer of indirection is used here
+             * to allow later implementations to add flexibility to this builder. However, as at
+             * this version, this indirection is not utilised.
+             */
             private FunctionBuilder<I, SystemUnderTest<I, O>> systemUnderTestProviderBuilder;
 
+            /**
+             * The {@link FunctionBuilder} to use to provide the {@link PassiveOracle} for
+             * use by the target {@link TestContainer}.
+             * <p>
+             * The FunctionBuilder -> {@link PassiveOracle} layer of indirection is used here
+             * to allow later implementations to add flexibility to this builder. However, as at
+             * this version, this indirection is not utilised.
+             */
             private FunctionBuilder<I, PassiveOracle<I, O>> passiveOracleProviderBuilder;
 
             public Apprentice() {
