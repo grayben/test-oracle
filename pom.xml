@@ -3,7 +3,7 @@
 
     <groupId>com.grayben.tools</groupId>
     <artifactId>test-oracle</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <packaging>jar</packaging>
 
     <name>test-oracle</name>
@@ -20,19 +20,24 @@
     </repositories>
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.grayben</groupId>
             <artifactId>math</artifactId>
-            <version>0.4.2</version>
+            <version>0.8.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.collections</groupId>
+            <artifactId>google-collections</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
