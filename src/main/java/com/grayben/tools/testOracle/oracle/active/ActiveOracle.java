@@ -8,7 +8,7 @@ import java.util.function.Function;
  * Given an input, outputs the expected output of a related system under test.
  * <p>
  * A simple facade for {@link Function} which defines an active test oracle.
- * <p/>
+ * <p>
  * Created by Ben Gray on 30/01/2016.
  *
  * @param <I> the type of input to the related system under test
