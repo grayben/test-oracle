@@ -14,5 +14,5 @@ import java.util.function.Function;
  * @param <X>
  * @param <Y>
  */
-public interface PairGenerator<P, X, Y> extends Function<P, Pair<X, Y>> {
+interface PairGenerator<P, X, Y> extends Function<P, Pair<X, Y>> {
 }
