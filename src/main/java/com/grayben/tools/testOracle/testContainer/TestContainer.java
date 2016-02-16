@@ -23,12 +23,12 @@ public class TestContainer<I, O> {
     /**
      * The system under test
      */
-    private final Function<I, SystemUnderTest<I, O>> systemUnderTestProvider;
+    private final Function<I, SystemUnderTest<? super I, ? extends O>> systemUnderTestProvider;
 
     /**
      * The test oracle represented as a {@link PassiveOracle}
      */
-    private final Function<I, PassiveOracle<I, O>> passiveOracleProvider;
+    private final Function<I, PassiveOracle<? super I, ? super O>> passiveOracleProvider;
 
     /**
      * Use the specified builder to construct this test container.
@@ -45,9 +45,9 @@ public class TestContainer<I, O> {
      * @return true if and only if the system under test is verified on the specified input
      */
     final public boolean verify(I input) {
-        SystemUnderTest<I, O> selectedSystemUnderTest = systemUnderTestProvider.apply(input);
+        SystemUnderTest<? super I, ? extends O> selectedSystemUnderTest = systemUnderTestProvider.apply(input);
         O actualOutput = selectedSystemUnderTest.apply(input);
-        PassiveOracle<I, O> selectedPassiveOracle = passiveOracleProvider.apply(input);
+        PassiveOracle<? super I, ? super O> selectedPassiveOracle = passiveOracleProvider.apply(input);
         return selectedPassiveOracle.test(input, actualOutput);
     }
 
@@ -111,7 +111,7 @@ public class TestContainer<I, O> {
              * @param systemUnderTest the system under test for use by the target {@link TestContainer}.
              * @return the next builder context
              */
-            OracleSettable<I, O> systemUnderTest(SystemUnderTest<I, O> systemUnderTest);
+            OracleSettable<I, O> systemUnderTest(SystemUnderTest<? super I, ? extends O> systemUnderTest);
         }
 
         /**
@@ -129,7 +129,7 @@ public class TestContainer<I, O> {
              * @param passiveOracle the passive oracle for use by the target {@link TestContainer}
              * @return the next builder context
              */
-            TestContainerBuildable<I, O> oracle(PassiveOracle<I, O> passiveOracle);
+            TestContainerBuildable<I, O> oracle(PassiveOracle<? super I, ? super O> passiveOracle);
 
             /**
              * Plan the target {@link TestContainer} with the specified {@link ActiveOracle}.
@@ -137,7 +137,7 @@ public class TestContainer<I, O> {
              * @param activeOracle the active oracle for use by the target {@link TestContainer}
              * @return the next builder context
              */
-            TestContainerBuildable<I, O> oracle(ActiveOracle<I, O> activeOracle);
+            TestContainerBuildable<I, O> oracle(ActiveOracle<? super I, ? extends O> activeOracle);
         }
 
         @Override
@@ -165,7 +165,7 @@ public class TestContainer<I, O> {
              * to allow later implementations to add flexibility to this builder. However, as at
              * this version, this indirection is not utilised.
              */
-            private FunctionBuilder<I, SystemUnderTest<I, O>> systemUnderTestProviderBuilder;
+            private FunctionBuilder<I, SystemUnderTest<? super I, ? extends O>> systemUnderTestProviderBuilder;
 
             /**
              * The {@link FunctionBuilder} to use to provide the {@link PassiveOracle} for
@@ -175,25 +175,25 @@ public class TestContainer<I, O> {
              * to allow later implementations to add flexibility to this builder. However, as at
              * this version, this indirection is not utilised.
              */
-            private FunctionBuilder<I, PassiveOracle<I, O>> passiveOracleProviderBuilder;
+            private FunctionBuilder<I, PassiveOracle<? super I, ? super O>> passiveOracleProviderBuilder;
 
             public Apprentice() {
             }
 
             @Override
-            public OracleSettable<I, O> systemUnderTest(SystemUnderTest<I, O> systemUnderTest) {
+            public OracleSettable<I, O> systemUnderTest(SystemUnderTest<? super I, ? extends O> systemUnderTest) {
                 this.systemUnderTestProviderBuilder = new FunctionBuilder<>(new ConstantFunction<>(systemUnderTest));
                 return this;
             }
 
             @Override
-            public TestContainerBuildable<I, O> oracle(PassiveOracle<I, O> passiveOracle) {
+            public TestContainerBuildable<I, O> oracle(PassiveOracle<? super I, ? super O> passiveOracle) {
                 this.passiveOracleProviderBuilder = new FunctionBuilder<>(new ConstantFunction<>(passiveOracle));
                 return Builder.this;
             }
 
             @Override
-            public TestContainerBuildable<I, O> oracle(ActiveOracle<I, O> activeOracle) {
+            public TestContainerBuildable<I, O> oracle(ActiveOracle<? super I, ? extends O> activeOracle) {
                 this.passiveOracleProviderBuilder = new FunctionBuilder<>(new ConstantFunction<>(Oracles.passiveOracle(activeOracle)));
                 return Builder.this;
             }
